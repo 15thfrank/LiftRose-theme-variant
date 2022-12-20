@@ -1,0 +1,26 @@
+{% include 'product-variantPopover' %}
+
+{% assign on_sale = false %}
+{% if product.compare_at_price > product.price %}
+	{% assign on_sale = true %}
+	{% assign on_sale_class = ' is-sale' %}
+{% endif %}
+
+{% assign sold_out = true %}
+{% if product.available %}
+	{% assign sold_out = false %}
+{% endif %}
+
+<div itemscope itemtype="http://schema.org/Product">
+	<meta itemprop="url" content="{{ shop.url }}{{ product.url }}">
+	<meta itemprop="image" content="{{ product.featured_image.src | img_url: 'grande' }}">
+	
+		{% section 'product-template' %}
+		{% section 'faq-section__product' %}
+		{% section 'related-products' %}
+
+	<span id="product-json" hidden>{{ product | json }}</span>
+</div>
+
+{{ 'page-product.js'  | asset_url | script_tag }}
+<!--Start Stamped.io Auto Installation--><div id="stamped-main-widget" class="stamped-main-widget" data-widget-style="standard" data-product-id="{{ product.id }}" data-name="{{ product.title | escape }}" data-url="{{ shop.url }}{{ product.url }}" data-image-url="{{ product.featured_image | product_img_url: "large" |replace: '?', '%3F' | replace: '&','%26'}}" data-description="{{ product.description | escape }}" data-product-sku="{{product.handle}}">{{ product.metafields.stamped.reviews }}</div><!--End Stamped.io Auto Installation-->

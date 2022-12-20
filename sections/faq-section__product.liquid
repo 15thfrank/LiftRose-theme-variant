@@ -1,0 +1,47 @@
+{% comment %} FAQ section {% endcomment %}
+
+{% assign heading = section.settings.title %}
+{% assign subheading = section.settings.subheading %}
+{% assign text = section.settings.text %}
+
+{% unless heading == blank and subheading == blank and text == blank and section.blocks.size == 0 %}
+<div data-section-id="{{ section.id }}" data-section-type="faq-section">
+  {% include 'faq' %}
+</div>
+{% endunless %}
+
+{% schema %}
+{
+  "name": "FAQ",
+  "settings": [
+    {
+      "type": "text",
+      "id": "subheading",
+      "label": "Subheading"
+    },
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Heading"
+    }
+  ],
+  "blocks": [
+    {
+      "name": "Item",
+      "type": "item",
+      "settings": [
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Question"
+        },
+        {
+          "type": "richtext",
+          "id": "answer",
+          "label": "Answer"
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

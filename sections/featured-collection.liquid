@@ -1,0 +1,109 @@
+{% comment %} Settings {% endcomment %}
+{% assign collection1 = collections[section.settings.collection1] | default: false %}
+{% assign title = section.settings.title %}
+{% assign layout = section.settings.products_layout %}
+{% assign enable_carousel = false %}
+{% if layout == 'carousel' %}
+	{% assign enable_carousel = true %}
+{% endif %}
+
+{% comment %} Layout {% endcomment %}
+{% assign productsRows = settings.products_rows | plus: 0 %}
+{% assign productsColumns = settings.products_columns | plus: 0 %}
+{% assign productLimit = productsColumns | times: productsRows %}
+{% assign columnsSize = productsColumns | replace: '1', '' %}
+{% assign image_size_class = settings.grid_size | prepend: 'collectionBlock-image--' %}
+{% assign color_swatches = settings.color_swatches %}
+{% assign show_reviews = settings.show_reviews %}
+
+{% comment %} Section {% endcomment %}
+<section class="collectionGrid container-wrap js-collection-grid js-collectionGrid" id="collection-module-{{ section.id }}" data-section-type="featured-collection" data-show-quickview="{{ settings.show_quick_view }}" data-show_reviews="{{ show_reviews }}" data-show_quantity="{{ settings.show_quantity }}" data-color_swatches="{{ color_swatches }}" data-carousel="{{ enable_carousel }}" data-slides-per-row="{{ settings.products_columns }}" data-grid-size="{{ settings.grid_size }}">
+	{% if title != blank %}
+		<div class="collectionGrid-header row row-sm">
+			<div class="block s1">
+				<h1>{{ title }}</h1>
+			</div>
+		</div>
+	{% endif %}
+	
+	{% if enable_carousel %}
+	<div class="collection-slider__wrapper">
+	{% endif %}
+	
+	<div class="collectionGrid-row row row-lg inline {% if enable_carousel %}collection-slider js-collection-slider{% endif %}">
+		{% comment %} Collection Block, contains .js-quickView {% endcomment %}
+		{% if collection1 %}
+			{% if enable_carousel %}
+				{% assign productLimit = false %}
+			{% endif %}
+
+			{% for product in collection1.products limit: productLimit  %}
+				{% include 'collectionGrid-block' %}
+			{% endfor %}
+		{% else %}
+			{% for i in (1..productLimit) %}
+				{% include 'collectionGrid-block', fallback: true %}
+			{% endfor %}
+		{% endif %}
+		
+		{% unless enable_carousel %}
+			{% comment %} Spacers for inline-block based collectionGrid {% endcomment %}
+			{% for i in (1..3) %}
+				<div class="gridSpacer item block s1 sm_s12 lg_s1{{ columnsSize }}"></div>
+			{% endfor %}
+		{% endunless %}
+	</div>
+
+	{% if enable_carousel %}
+	</div>
+	{% endif %}
+
+	{% comment %} Shop All Link {% endcomment %}
+	<div class="row row-med u-center">
+		<a href="{{ collection1.url }}" class="button inline">
+			{{ 'collections.grid.shop_all' | t }} {{ collection1.title }}
+		</a>
+	</div>
+</section>
+
+{% comment %} Schema {% endcomment %}
+{% schema %}
+{
+	"name": "Featured collection",
+	"settings": [
+		{
+			"type": "header",
+			"content": "Content"
+		},
+		{
+			"type": "text",
+			"id": "title",
+			"label": "Title"
+		},
+		{
+			"type": "collection",
+			"id": "collection1",
+			"label": "Collection"
+		},
+		{ 
+			"type": "select",
+			"id": "products_layout",
+			"label": "Layout",
+			"default": "grid",
+			"options": [
+				{ "value": "grid", "label": "Grid" },
+				{ "value": "carousel", "label": "Carousel" }
+			]
+		}
+	],
+	"presets": [
+		{
+			"category": "Collection",
+			"name": "Featured collection",
+			"settings": {
+				"collection1": "frontpage"
+			}
+		}
+	]
+}
+{% endschema %}

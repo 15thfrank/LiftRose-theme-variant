@@ -1,0 +1,452 @@
+{% comment %} About {% endcomment %}
+<div data-section-id="{{ section.id }}" data-section-type="about-template">
+  {% if section.blocks.size > 0 %}
+    {% for block in section.blocks %}
+      {% case block.type %}
+      {% when 'banner' %}
+        {% comment %} Banner Settings {% endcomment %}
+        {% assign image = block.settings.image %}
+        {% assign height = block.settings.height %}
+        {% assign subheading = block.settings.subheading %}
+        {% assign heading = block.settings.title %}
+        {% assign text = block.settings.text %}
+        {% assign text_position = block.settings.text_position %}
+        {% assign heading_size = block.settings.heading_size %}
+        {% assign text_size = block.settings.text_size %}
+        {% assign color_text = block.settings.color_text %}
+        {% assign color_overlay = block.settings.color_overlay %}
+        {% assign overlay_opacity = block.settings.overlay_opacity | times: 0.01 | round: 2 %}
+
+        <style>
+          .banner--{{ block.id }} .page-title { color: {{ color_text }}; }
+          .banner--{{ block.id }} .page-title h1 { color: {{ color_text }} !important; }
+          .banner--{{ block.id }} .page-title::before { background-color: {{ color_overlay }}; opacity: {{ overlay_opacity }}; }
+        </style>
+
+        <section class="banner banner--{{ block.id }} {% if forloop.index == 1 %}banner--collections{% endif %}" {{ block.shopify_attributes }} data-block="banner" data-header-style="{% if forloop.index == 1 %}index{% endif %}">
+          <div class="banner-inner banner-padded banner-padded--{{ height }} banner--text-{{ text_position }}">
+            {% unless height == 'original-height' %}
+              {% unless image == blank %}
+                <div class="banner-img lazyload" data-bgset="{% include 'bgset', image: image %}" data-sizes="auto" data-parent-fit="cover"></div>
+                <noscript>
+                  <div class="banner-img" style="background-image:url('{{image | img_url: '1024x' }}'); background-size: cover; background-position: center center; background-repeat: no-repeat;"></div>
+                </noscript>
+              {% else %}
+                <div class="banner-img banner-img--placeholder svg-placeholder">
+                  {{ 'image' | placeholder_svg_tag }}
+                </div>
+              {% endunless %}
+            {% else %}
+              {% assign image_widths = '295,394,590,700,800,1000,1200,1500,1800,2000,2400' %}
+              {% include 'theme-rias' %}
+              <img class="banner-img--original lazyload fade-in"
+                   data-src="{{ image_url_pattern }}" 
+                   data-widths="[{{ image_widths }}]"
+                   data-aspectratio="{{ image.aspect_ratio }}"
+                   data-sizes="auto"
+                   alt="{{ image.alt }}">
+              <noscript>
+                <img src="{{ image | img_url: '2048x' }}" alt="{{ image.alt | escape }}" class="banner-img--original no-js-image">
+              </noscript>
+            {% endunless %}
+            
+            {% unless heading == blank and subheading == blank and text == blank %}
+              <div class="page-title">
+                <div class="container">
+                  <div class="row row-lg">
+                    {% if subheading != blank %}
+                      <h4 class="page-title__subheading subheading-text">{{ subheading }}</h4>
+                    {% endif %}
+                    {% if heading != blank %}
+                      <h1 class="page-title__heading size--{{ heading_size }}">{{ heading }}</h1>
+                    {% endif %}
+                  </div>
+                  {% if text != blank %}
+                    <div class="row row-lg">
+                      <div class="page-title__text rte size--{{ text_size }}"><p>{{ text }}</p></div>
+                    </div>
+                  {% endif %}
+                </div>
+              </div>
+            {% endunless %}
+          </div>  
+        </section>
+
+      {% when 'rich-text' %}
+        {% comment %} settings {% endcomment %}
+        {% assign id = block.id %}
+        {% assign layout = block.settings.layout %}
+        {% assign title = block.settings.title %}
+        {% assign content = block.settings.content %}
+        {% assign cta = block.settings.cta %}
+        {% assign link = block.settings.link %}
+        {% assign accent_line = block.settings.accent_line %}
+        {% assign accent_line_color = block.settings.accent_line_color %}
+
+        {% comment %} Typography {% endcomment %}
+        {% assign heading_size = block.settings.heading_size %}
+        {% assign heading_align = block.settings.heading_align %}
+        {% assign content_size = block.settings.content_size %}
+
+        <div {{ block.shopify_attributes }}>
+          {%- if accent_line_color != blank -%}
+          <style>
+            #text-module-{{ id }} .accent-line--straight { background-color: {{ accent_line_color }}; }
+            #text-module-{{ id }} .accent-line--curved svg path { fill: {{ accent_line_color }}; }
+          </style>
+          {%- endif -%}
+          
+          {% include 'rich-text' %}
+        </div>
+      
+      {% when 'product-feature' %}
+        {% assign heading = block.settings.title %}
+        {% assign heading_size = block.settings.heading_size %}
+        {% assign description = block.settings.description %}
+        {% assign image = block.settings.image %}
+        {% assign image_link = block.settings.image_link %}
+        {% assign button_text = block.settings.button_text %}
+        {% assign button_link = block.settings.button_link %}
+        {% assign blocks_alignment = block.settings.blocks_alignment %}
+        {% assign is_block_odd = block.settings.reverse_layout %}
+        
+        <div class="product-features--container pad-sm" {{ block.shopify_attributes }}>
+          <div class="container">
+            <div class="row row-lg">
+              {% include 'product-features__item' %}
+            </div>
+          </div>
+        </div>
+
+      {% endcase %}
+    {% endfor %}
+  {% endif %}
+  
+  {%-if page.content != blank -%}
+    <div class="container-wrap">
+      <div class="container content-about text-content row row-lg">
+        <p class="row row-sm rte">
+          {{ page.content }}
+        </p>
+      </div>
+    </div>
+  {%- endif %}
+</div>
+
+{% schema %}
+{
+  "name": "About page",
+  "blocks": [
+    {
+      "type": "banner",
+      "name": "Banner",
+      "limit": 3,
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Image"
+        },
+        {
+          "type": "select",
+          "id": "height",
+          "label": "Height",
+          "options": [
+              {
+                "value": "one-hundred",
+                "label": "Full screen height"
+              },
+              {
+                "value": "original-height",
+                "label": "Image height"
+              },
+              {
+                "value": "big",
+                "label": "750px"
+              },
+              {
+                "value": "normal",
+                "label": "650px"
+              },
+              {
+                "value": "small",
+                "label": "550px"
+              }
+            ],
+            "default": "normal"
+        },
+        {
+          "type": "text",
+          "id": "subheading",
+          "label": "Subheading"
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Heading",
+          "default": "Welcome to Modular"
+        },
+        {
+          "type": "text",
+          "id": "text",
+          "label": "Text",
+          "default": "<p>A unique layout with a striking design</p>"
+        },
+        {
+          "type": "select",
+          "id": "text_position",
+          "label": "Text position",
+          "default": "center",
+          "options": [
+            { "label": "Left", "value": "left" },
+            { "label": "Center", "value": "center" },
+            { "label": "Right", "value": "right" },
+            { "label": "Bottom left", "value": "bottom-left" },
+            { "label": "Bottom right", "value": "bottom-right" }
+          ]
+        },
+        {
+          "type": "header",
+          "content": "Typography"
+        },
+        {
+          "type": "select",
+          "id": "heading_size",
+          "label": "Heading size",
+          "default": "normal",
+          "options": [
+            { "label": "Small", "value": "small" },
+            { "label": "Normal", "value": "normal" },
+            { "label": "Large", "value": "large" },
+            { "label": "Extra large", "value": "xlarge" }
+          ]
+        },
+        {
+          "type": "select",
+          "id": "text_size",
+          "label": "Text size",
+          "default": "normal",
+          "options": [
+            { "label": "Small", "value": "small" },
+            { "label": "Normal", "value": "normal" },
+            { "label": "Large", "value": "large" },
+            { "label": "Extra large", "value": "xlarge" }
+          ]
+        },
+        {
+          "type": "header",
+          "content": "Colors"
+        },
+        {
+          "type": "color",
+          "id": "color_text",
+          "label": "Text",
+          "default": "#ffffff"
+        },
+        {
+          "type": "color",
+          "id": "color_overlay",
+          "label": "Overlay",
+          "default": "#222222"
+        },
+        {
+          "type": "range",
+          "id": "overlay_opacity",
+          "label": "Overlay opacity",
+          "step": 1,
+          "max": 100,
+          "min": 0,
+          "unit": "%",
+          "default": 10
+        }
+      ]
+    },
+    {
+      "type": "rich-text",
+      "name": "Rich text",
+      "settings": [
+        {
+          "type": "header",
+          "content": "Layout"
+        },
+        {
+          "type": "select",
+          "id": "layout",
+          "label": "Text position",
+          "default": "default",
+          "options": [
+            { "label": "Stacked", "value": "default" },
+            { "label": "Split", "value": "split" }
+          ]
+        },
+        {
+          "type": "select",
+          "id": "heading_align",
+          "label": "Heading alignment",
+          "default": "left",
+          "options": [
+            { "label": "Left", "value": "left" },
+            { "label": "Center", "value": "center" },
+            { "label": "Right", "value": "right" }
+          ]
+        },
+        {
+          "type": "header",
+          "content": "Typography"
+        },
+        {
+          "type": "select",
+          "id": "heading_size",
+          "label": "Heading size",
+          "default": "small",
+          "options": [
+            { "label": "Small", "value": "small" },
+            { "label": "Normal", "value": "normal" },
+            { "label": "Large", "value": "large" },
+            { "label": "Extra large", "value": "xlarge" }
+          ]
+        },
+        {
+          "type": "header",
+          "content": "Content"
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Heading",
+          "default":"Describe your products or brand in detail here"
+        }, {
+          "type": "richtext",
+          "id": "content",
+          "label": "Text",
+          "default":"<p>Modular is a powerful Shopify theme that will set you apart from the rest. It features ample space to showcase your imagery with Mosaic, Gallery, and Slideshow sections.</p>"
+        }, {
+          "type": "text",
+          "id": "cta",
+          "label": "Button label"
+        }, {
+          "type": "url",
+          "id": "link",
+          "label": "Button link"
+        },
+        {
+          "type": "select",
+          "id": "accent_line",
+          "label": "Accent line",
+          "default": "curved",
+          "options": [
+            { "label": "Curved", "value": "curved" },
+            { "label": "Straight", "value": "straight" },
+            { "label": "None", "value": "none" }
+          ]
+        },
+        {
+          "type": "color",
+          "id": "accent_line_color",
+          "label": "Color",
+          "default": "#333"
+        }
+      ]
+    },
+    {
+      "type": "product-feature",
+      "name": "Product feature",
+      "settings": [
+        {
+          "type":"header",
+          "content":"Text"
+        },
+        {
+          "type": "textarea",
+          "id": "title",
+          "label": "Heading",
+          "default": "This is a heading for a Product feature block."
+        },
+        {
+          "type": "richtext",
+          "id": "description",
+          "label": "Description",
+          "default": "<p>Use this text to share information about the point put forth above. Describe a product, your brand, or what makes you special.</p>"
+        },
+        {
+          "type": "header",
+          "content":"Images"
+        },
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Image"
+        },
+        {
+          "type": "url",
+          "id": "image_link",
+          "label": "Image link"
+        },
+        {
+          "type": "header",
+          "content":"Button"
+        },
+        {
+          "type": "text",
+          "id": "button_text",
+          "label": "Button text"
+        },
+        {
+          "type": "url",
+          "id": "button_link",
+          "label": "Button link"
+        },
+        {
+          "type":"header",
+          "content":"Blocks Alignment"
+        },
+        {
+          "type":"select",
+          "id":"blocks_alignment",
+          "label":"Text alignment",
+          "options": [
+            {
+              "value": "center",
+              "label": "Center"
+            },
+            {
+              "value": "top",
+              "label": "Top"
+            }
+          ]
+        },
+        {
+          "type": "checkbox",
+          "id": "reverse_layout",
+          "label":"Reverse layout",
+          "default": false
+        },
+        {
+          "type": "header",
+          "content": "Typography"
+        },
+        {
+          "type":"select",
+          "id":"heading_size",
+          "label":"Heading size",
+          "default": "normal",
+          "options": [
+            {
+              "value": "small",
+              "label": "Small"
+            },
+            {
+              "value": "normal",
+              "label": "Normal"
+            },
+            {
+              "value": "large",
+              "label": "Large"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

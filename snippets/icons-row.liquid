@@ -1,0 +1,34 @@
+{% assign background = block.settings.color_icons_bg %}
+{% assign color = block.settings.color_icons_text %}
+
+<div class="icons-row--background pad-sm" style="color: {{ color }}; background-color: {{ background }};">
+  <div class="container">
+    <div class="row row-lg">
+      <div class="icons-row-wrapper">
+        {% for i in (1..3) %}
+          {% assign title_key = 'title_' | append: i %}
+          {% assign title = block.settings[title_key] %}
+          {% assign content_key = 'content_' | append: i %}
+          {% assign content = block.settings[content_key] %}
+          {% assign icon_words_key = 'icon_' | append: i %}
+          {% assign icon_words = block.settings[icon_words_key] | split: ' ' %}
+          {%- capture icon -%}{%- for word in icon_words -%}{%- unless forloop.index == 1 -%}-{%- endunless -%}{{ word | lowercase | capitalize }}{%- endfor -%}{%- endcapture -%}
+
+          <div class="icons-row__item">
+            {% if icon != blank %}
+            <span class="icons-row__icon iconsmind-{{ icon }}"></span>
+            {% endif %}
+
+            {% if title != blank %}
+            <h3 class="icons-row__title">{{ title }}</h3>
+            {% endif %}
+
+            {% if content != blank %}
+            <p class="icons-row__content">{{ content }}</p>
+            {% endif %}
+          </div>
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+</div>

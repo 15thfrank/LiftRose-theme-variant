@@ -1,0 +1,66 @@
+<ul class="social-links">
+{% if settings.twitter_url != '' %}
+    <li class="footer-link footer-link-social">
+        <a href="{{settings.twitter_url}}" target="_blank">
+            <span class="icon-twitter"></span>
+            <span class="fallback-text">{{ 'general.footer.twitter' | t }}</span>
+        </a>
+    </li>
+{% endif %}
+{% if settings.facebook_url != '' %}
+    <li class="footer-link footer-link-social">
+        <a href="{{settings.facebook_url}}" target="_blank">
+            <span class="icon-facebook"></span>
+            <span class="fallback-text">{{ 'general.footer.facebook' | t }}</span>
+        </a>
+    </li>
+{% endif %}
+{% if settings.instagram_url != '' %}
+    <li class="footer-link footer-link-social">
+        <a href="{{settings.instagram_url}}" target="_blank">
+            <span class="icon-instagram"></span>
+            <span class="fallback-text">{{ 'general.footer.instagram' | t }}</span>
+        </a>
+    </li>
+{% endif %}
+{% if settings.googleplus_url != '' %}
+    <li class="footer-link footer-link-social">
+        <a href="{{settings.googleplus_url}}" target="_blank">
+            <span class="icon-googleplus"></span>
+            <span class="fallback-text">{{ 'general.footer.googleplus' | t }}</span>
+        </a>
+    </li>
+{% endif %}
+{% if settings.pinterest_url != '' %}
+    <li class="footer-link footer-link-social">
+        <a href="{{settings.pinterest_url}}" target="_blank">
+            <span class="icon-pinterest"></span>
+            <span class="fallback-text">{{ 'general.footer.pinterest' | t }}</span>
+        </a>
+    </li>
+{% endif %}
+{% if settings.youtube_url != '' %}
+    <li class="footer-link footer-link-social">
+        <a href="{{settings.youtube_url}}" target="_blank">
+            <span class="icon-youtube"></span>
+            <span class="fallback-text">{{ 'general.footer.youtube' | t }}</span>
+        </a>
+    </li>
+{% endif %}
+{% if settings.tumblr_url != '' %}
+    <li class="footer-link footer-link-social">
+        <a href="{{settings.tumblr_url}}" target="_blank">
+            <span class="icon-tumblr"></span>
+            <span class="fallback-text">{{ 'general.footer.tumblr' | t }}</span>
+        </a>
+    </li>
+{% endif %}
+{% if settings.rss_url != '' %}
+    <li class="footer-link footer-link-social">
+        <a href="{{settings.rss_url}}" target="_blank">
+            <span class="icon-rss"></span>
+            <span class="fallback-text">{{ 'general.footer.rss' | t }}</span>
+        </a>
+    </li>
+{% endif %}
+</ul>

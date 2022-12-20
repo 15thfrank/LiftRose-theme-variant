@@ -1,0 +1,41 @@
+{% comment %} Settings {% endcomment %}
+{% assign banner = section.settings.banner %}
+
+{% assign contact_heading = section.settings.title %}
+{% assign contact_content = section.settings.content %}
+
+{% include 'contact-section' %}
+
+{% schema %}
+	{
+		"name": "Contact section",
+		"settings": [  
+			{
+				"type": "text",
+				"id": "title",
+				"label": "Heading",
+				"default": "Contact"
+			},
+			{
+				"type": "richtext",
+				"id": "content",
+				"label": "Text"
+			},
+			{
+				"type": "header",
+				"content": "Banner image"
+			}, 
+			{
+				"type": "image_picker",
+				"id": "banner",
+				"label": "Image"
+			} 
+		],
+		"presets": [
+			{
+				"name": "Contact section",
+				"category": "Store information"
+			}
+		]
+	}
+{% endschema %}

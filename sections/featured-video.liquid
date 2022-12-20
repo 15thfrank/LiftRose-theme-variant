@@ -1,0 +1,251 @@
+{% comment %} Settings {% endcomment %}
+
+{% assign title = section.settings.title %}
+{% assign content = section.settings.content %}
+{% assign video_url = section.settings.video_url %}
+{% if section.settings.video_url == blank %}
+  {% assign video_url = 'https://www.youtube.com/watch?v=_9VUPq3SxOc' %}
+{% endif %}
+
+{% comment %} Layout {% endcomment %}
+{% assign style = section.settings.style %}
+
+{% comment %} Colors {% endcomment %}
+{% unless section.settings.overlay_color == blank %}
+    {% assign overlayColor = section.settings.overlay_color  %}
+{% else %}
+    {% assign overlayColor = 'none' %}
+{% endunless %}
+{% assign overlayOpacity = section.settings.overlay_opacity | prepend: '.' %}
+
+{% comment %} Check if Image Height setting is selected {% endcomment %}
+{% assign image_height = false %}
+{% if section.settings.image_height == 'original-height' %}
+{% assign image_height = true %}
+{% endif %}
+
+{% if section.settings.logo != blank %}
+<style>
+	.video__logo {max-width: {{ section.settings.logo_max_width | append: 'px' }}; }
+</style>
+{% endif %}
+
+{% comment %} Section {% endcomment %}
+<section class="video-module container-wrap style-default {% if style == 'dark' %}style-dark{% else %}style-light{% endif %}" id="video-module-{{ section.id }}" data-section-type="featured-video">
+	<div class="container-wrap">
+		{% capture video_text %}
+		<div class="video-text-wrapper">
+			<div class="video-text__content">
+				{% if section.settings.logo != blank %}
+					{% assign image = section.settings.logo %}
+					{% assign image_widths = '295,394,590,700,800,1000,1200,1500,1800,2000,2400' %}
+			    {% include 'theme-rias' %}
+					<img 
+			       class="lazyload fade-in video__logo"
+			       data-src="{{ image_url_pattern }}"
+			       data-widths="[{{ image_widths }}]"
+			       data-aspectratio="{{ logo.aspect_ratio }}"
+			       data-sizes="auto"
+			       alt="{{ image.alt | escape }}">
+			    <noscript>
+			      <img src="{{ image | img_url: '512x' }}" alt="{{ image.alt | escape }}" class="video__logo">
+			    </noscript>
+				{% endif %}
+				
+				{% if title != blank %}
+					<h1>{{ title }}</h1>
+				{% endif %}
+				{% if content != blank %}
+					{{ content }}
+				{% endif %}
+				
+				<a href="{{ video_url }}" class="js-video"><span class="icon-play"></span></a>
+			</div>
+		</div>
+		{% endcapture %}
+
+		{% if section.settings.image != blank %}
+      {%- assign image = section.settings.image -%}
+      {% if image_height %}
+        {% assign image_widths = '295,394,590,700,800,1000,1200,1500,1800,2000,2400' %}
+        {% include 'theme-rias' %}
+        <div class="video-container {{ section.settings.image_height }}">
+          <img 
+             class="lazyload fade-in"
+             data-src="{{ image_url_pattern }}"
+             data-widths= "[{{ image_widths }}]"
+             data-aspectratio="{{image.aspect_ratio }}"
+             data-sizes="auto"
+             alt="{{ image.alt | escape }}">
+          <noscript>
+            <img src="{{ image | img_url: '1024x' }}" alt="{{ image.alt | escape }}">
+          </noscript>
+          {% unless section.settings.overlay_color == blank %}
+          <div class="video-overlay" style="background-color: {{ overlayColor }} !important; opacity: {{ overlayOpacity }};"></div>
+          {% endunless %}
+
+          {{ video_text }}
+        </div>
+      {% else %}
+        <div class="video-container {{ section.settings.image_height }}">
+          <div
+	          class="video-container-bg lazyload fade-in"
+	          data-bgset="{% include 'bgset', image: image %}"
+	          data-sizes="auto"
+	          data-parent-fit="cover">
+          </div>
+          <noscript>
+            <div class="video-container-bg no-js-video-container-bg"
+            style="background-image:url('{{ image | img_url: '1024x' }}'); background-size: cover; background-position: center center; background-repeat: no-repeat;"
+            ></div>
+          </noscript>
+          {% unless section.settings.overlay_color == blank %}
+          <div class="video-overlay" style="background-color: {{ overlayColor }} !important; opacity: {{ overlayOpacity }};"></div>
+          {% endunless %}
+					
+					{{ video_text }}
+        </div>
+      {% endif %}
+    {% else %}
+      <div class="video-placeholder video-container {{ section.settings.image_height }}">
+        {{ 'lifestyle-1' | placeholder_svg_tag: 'placeholder-svg' }}
+        {% unless section.settings.overlay_color == blank %}
+          <div class="video-overlay" style="background-color: {{ overlayColor }} !important; opacity: {{ overlayOpacity }};"></div>
+        {% endunless %}
+
+        {{ video_text }}
+      </div>
+    {% endif %}
+	</div>
+</section>
+
+{% comment %} Schema {% endcomment %}
+{% schema %}
+	{
+		"name": "Video",
+		"class":"header--full",
+		"settings": [
+			{
+				"type": "header",
+				"content": "Content"
+			},
+			{
+				"type": "text",
+				"id": "title",
+				"label": "Heading",
+				"default": "Featured video"
+			},
+			{
+				"type": "richtext",
+				"id": "content",
+				"label": "Text",
+				"default": "<p>Describe in a few words your special products, collection, or brand.</p>"
+			},
+			{
+				"id": "video_url",
+				"type": "video_url",
+				"label": "Link",
+				"accept": ["youtube", "vimeo"],
+				"default": "https://www.youtube.com/watch?v=_9VUPq3SxOc"
+			},
+			{
+		      "type": "image_picker",
+		      "id": "logo",
+		      "label": "Logo"
+		    },
+		    {
+		      "type": "range",
+		      "id": "logo_max_width",
+		      "label": "Custom logo width (in pixels)",
+		      "min": 50,
+		      "max": 500,
+		      "default": 100,
+		      "step": 5,
+		      "unit": "px"
+		    },
+			{
+				"type": "header",
+				"content": "Hero"
+			},
+			{
+				"type": "image_picker",
+				"id": "image",
+				"label": "Image"
+			},
+			{
+				"type": "select",
+				"id": "image_height",
+				"label": "Height",
+				"default": "five-fifty-height-hero",
+				"options": [
+					{
+					  "value": "one-hundred-height-hero",
+					  "label": "Full screen height"
+					},
+					{
+					  "value": "original-height",
+					  "label": "Image height"
+					},
+					{
+					  "value": "seven-fifty-height-hero",
+					  "label": "750px"
+					},
+					{
+					  "value": "sixty-fifty-height-hero",
+					  "label": "650px"
+					},
+					{
+					  "value": "five-fifty-height-hero",
+					  "label": "550px"
+					},
+					{
+					  "value": "four-fifty-height-hero",
+					  "label": "450px"
+					}
+				]
+		    },
+		    {
+				"type": "select",
+				"id": "style",
+				"label": "Style",
+				"default": "light",
+				"options": [
+					{
+					  "value": "light",
+					  "label": "Light"
+					},
+					{
+					  "value": "dark",
+					  "label": "Dark"
+					}
+				]
+		    },
+		    {
+		      "type": "header",
+		      "content": "Overlay"
+		    },
+		    {
+		      "type": "color",
+		      "id": "overlay_color",
+		      "label": "Color",
+		      "default": "#333"
+		    },
+		    {
+		      "type": "range",
+		      "id": "overlay_opacity",
+		      "label": "Opacity",
+		      "min":0,
+		      "max":95,
+		      "step":5,
+		      "unit":"%",
+		      "default": 20
+		    }
+		],
+		"presets": [
+			{
+				"category": "Video",
+				"name": "Video"
+			} 
+		]
+	}
+{% endschema %}

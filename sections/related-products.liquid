@@ -1,0 +1,74 @@
+{% assign showRel = section.settings.showRel %}
+{% assign custom_title = section.settings.custom_title %}
+{% assign productsColumns = settings.products_columns | plus: 0 %}
+{% assign columnsSize = productsColumns | replace: '1', '' %}
+
+{% if showRel %}
+  {% assign heading = section.settings.title %}
+  {% assign currentproduct = product.handle %}
+  
+  {% for collection in product.collections limit: 1 %}
+    {% assign related = collection.handle %}
+    {% assign totalproducts = collection.products_count | minus: 1 %}
+
+    {% if collection.products_count > 1 %}
+      <section class="related-products container-wrap collectionGrid js-collectionGrid" data-section-type="related-products" data-section-id="{{ section.id }}" data-show-quickview="{{ settings.show_quick_view }}" data-show_reviews="{{ show_reviews }}" data-show_quantity="{{ settings.show_quantity }}" data-color_swatches="{{ color_swatches }}">
+        <div class="carousel container pad-med">
+          <div class="row row-sm carousel-title">
+            {% if heading != blank %}
+            <h2>{{ heading }}</h2>
+            {% endif %}
+          </div>
+     
+          <div class="collectionGrid-row row row-lg inline row--products-{{ totalproducts }}">
+
+            {% for product in collections[related].products limit: 6 %}
+
+              {% if currentproduct != product.handle %}
+
+                {% include 'collectionGrid-block' %}
+
+              {% endif %}
+
+            {% endfor %}
+
+          </div>
+
+          {% if section.settings.show_button %}
+          <div class="row row-sm inline u-center">
+            <a href="{{ collections[related].url }}" class="button inline alt cap">
+            {{ 'products.product_page.similar_products_cta' | t }} {{ collections[related].title }}
+            </a>
+          </div>
+          {% endif %}
+
+        {% endif %}
+      {% endfor %}
+    </div>
+  </section>
+{% endif %}
+
+{% schema %}
+  {
+    "name": "Related products",
+    "settings": [
+    {
+      "type": "checkbox",
+      "id": "showRel",
+      "label": "Show related products",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Heading",
+      "default":"Related Products"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_button",
+      "label": "Show collection link button",
+      "default":true
+    }]
+  }
+{% endschema %}

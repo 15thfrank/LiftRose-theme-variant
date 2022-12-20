@@ -1,0 +1,69 @@
+{%- unless heading == blank and subheading == blank and text == blank and section.blocks.size == 0 -%}
+  <div class="faq-section">
+    {%- unless heading == blank and subheading == blank and text == blank -%}
+      <div class="page-title">
+        <div class="container">
+          <div class="row row-lg">
+            {%- if heading != blank -%}
+              <h1 class="page-title__heading">{{ heading }}</h1>
+            {%- endif -%}
+
+            {%- if subheading != blank -%}
+              <h4 class="page-title__subheading subheading-text">{{ subheading }}</h4>
+            {%- endif -%}
+          </div>
+
+          {%- if text != blank -%}
+            <div class="row row-sm text-content">
+              <div class="rte">
+                {{ text }}
+              </div>
+            </div>
+            {%- endif -%}
+        </div>
+      </div>
+    {% endunless %}
+
+    {% if section.blocks.size > 0 %}
+      <div class="faq-content">
+        <div class="container">
+          <div class="row row-lg inline">
+            <ul class="faq-list">
+              {% for block in section.blocks %}
+                {% assign question = block.settings.title %}
+                {% assign answer = block.settings.answer %}
+
+                {% unless question == blank %}
+                  <li class="faq-list__item" {{ block.shopify_attributes }}>
+                    <h2 class="faq-list__item-question">{{ question }}</h2>
+                    
+                    {% unless answer == blank %}
+                      <div class="faq-list__item-answer">{{ answer }}</div>
+                    {% endunless %}
+                  </li>
+                {% endunless %}
+              {% endfor %}
+            </ul>
+          </div>
+        </div>
+      </div>
+    {% else %}
+      {% if is_faq_template %}
+        <div class="faq-content">
+          <div class="container">
+            <div class="row row-lg inline">
+              <ul class="faq-list">
+                {% for i in (1..3) %}
+                <li class="faq-list__item" {{ block.shopify_attributes }}>
+                  <h2 class="faq-list__item-question">{{ 'onboarding.faq_question' | t }}</h2>
+                  <div class="faq-list__item-answer"><p>{{ 'onboarding.faq_answer' | t }}</p></div>
+                </li>
+                {% endfor %}
+              </ul>
+            </div>
+          </div>
+        </div>
+      {% endif %}
+    {% endif %}
+  </div>
+{% endunless %}

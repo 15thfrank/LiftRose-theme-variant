@@ -1,0 +1,300 @@
+{% comment %} Settings Slide Out Navigation {% endcomment %}
+{% assign menuPrimary = section.settings.menu_1_list %}
+{% assign menuSecondary = section.settings.menu_2_list %}
+
+{% if section.settings.show_announcement %}
+{% include 'announcement-bar' %}
+{% endif %}
+
+{% assign position = 'is-hamburger' %}
+{% if section.settings.nav_layout == 'standard' %}
+{% assign position = 'is-standard' %}
+{% endif %}
+
+{% assign logo_position = section.settings.logo_position %}
+{% assign links_position = section.settings.links_position %}
+
+<style>
+@media screen and (min-width: 768px) {
+  .main-logo .logo { max-width: {{ section.settings.logo_max_width | append: 'px' }}; }
+}
+</style>
+
+<header class="site-header header--no-bg {{ position }} header--{{ logo_position }}_{{ links_position }} header--{{ section.settings.nav_layout }} {% if section.settings.show_announcement %}has-announcement-bar{% endif %} {% if section.settings.show_announcement_on_mobile %}has-announcement-bar--mobile{% endif %} template-{{ template }}" data-section-type="header" data-layout="{{ section.settings.nav_layout }}" id="header">
+    <div class="container">
+        <div class="row row-lg">
+            <div class="header-fix-cont">
+                <div class="header-fix-cont-inner">
+                    <a href="#menu" class="js-menuToggle menuToggle nav-item-fixed nav-item" data-target="nav" aria-expanded="false">
+                        <div id="hamburger-menu" class="icon-menu">
+                            <div class="diamond-bar"></div>
+                            <div id="hamburger-bar" class="icon-bar"></div>
+                        </div>
+                    </a>
+
+                    <a id="cartTotal" href="/cart" aria-label="{{ 'cart.labels.items_added' | t }}" class="js-cartToggle cartToggle nav-item-fixed nav-item diamond-outline" tabindex="2" aria-expanded="false">
+                      {% include 'icon-cart' %}
+                      <div id="CartToggleItemCount" class="cartToggle-items">{{cart.item_count}}</div>
+                    </a>
+
+                    {% if shop.customer_accounts_enabled and section.settings.show_account_icon %}
+                      <a href="/account" class="nav-item nav-item-fixed nav-account-link {% unless section.settings.show_search %}nav-account-link--no-search{% endunless %}" tabindex="2">{% include 'icon-user' %}</a>
+                    {% endif %}
+
+                    {% if section.settings.nav_layout == 'standard' %}
+                      <nav role="navigation" class="nav-standard nav-main">
+                        {% assign is_hamburger_nav = false %}
+                        {% include 'navigation' %}
+                      </nav>
+                    {% endif %}
+                </div>
+            </div>
+            {%if template == 'index' %}
+              {% if section.settings.logo %}
+                  <a tabindex= "1" href="/" class="visible-nav-link nav-item main-logo">
+                      {% assign image = section.settings.logo %}
+                      <img src="{{ image | img_url: '500x' }}" class="logo logo-home" alt="{{ image.alt | escape }}">
+                      
+                      {% if section.settings.logo_other %}
+                        {% assign image = section.settings.logo_other %}
+                        <img src="{{ image | img_url: '500x' }}" class="logo logo-other" alt="{{ image.alt | escape }}">
+                      {% endif %}
+                  </a>
+              {% else %}
+                {% if section.settings.show_site_name %}
+                  <h1 class="nav-item main-logo main-logo__text {% if section.settings.logo_other == blank %}main-logo--text-only{% endif %}" itemscope itemtype="http://schema.org/Organization">
+                      <a id="shopName" href="/" itemprop="url">{{ shop.name | escape }}</a>
+                  </h1>
+                {% endif %}
+                
+                {% if section.settings.logo_other %}
+                  <a tabindex= "1" href="/" class="visible-nav-link nav-item main-logo">
+                      {% assign image = section.settings.logo_other %}
+                      <img src="{{ image | img_url: '500x' }}" class="logo logo-other" alt="{{ image.alt | escape }}">
+                  </a>
+                {% endif %}
+              {% endif %}
+            {% else %}
+              {% if section.settings.logo_other != blank %}
+                <a tabindex= "1" href="/" class="visible-nav-link nav-item main-logo">
+                    {% assign image = section.settings.logo_other %}
+                    <img src="{{ image | img_url: '500x' }}" class="logo" alt="{{ image.alt | escape }}">
+                </a>
+              {% else %}
+                {% if section.settings.logo %}
+                <a tabindex= "1" href="/" class="visible-nav-link nav-item main-logo">
+                    {% assign image = section.settings.logo %}
+                    <img src="{{ image | img_url: '500x' }}" class="logo" alt="{{ image.alt | escape }}">
+                </a>
+                {% else %}
+                  {% if section.settings.show_site_name %}
+                  <h1 class="nav-item main-logo main-logo__text {% if section.settings.logo == blank %}main-logo--text-only{% endif %}" itemscope itemtype="http://schema.org/Organization">
+                      <a id="shopName" href="/" itemprop="url">{{ shop.name | escape }}</a>
+                  </h1>
+                  {% endif %}
+                {% endif %}
+              {% endif %}
+            {% endif %}
+        </div>
+    </div>
+</header>
+
+{% comment %} Site Navigation {% endcomment %}
+<nav role="navigation" class="nav-container nav-main style-default">
+  <div class="nav-inner">
+    <div class="nav-mobile-close js-menuToggle" aria-expanded="false">
+      <i class="icon-close"></i>
+    </div>
+    {% assign is_hamburger_nav = true %}
+    {% include 'navigation' %}
+  </div>
+</nav>
+
+{% unless template == 'cart' %}
+  <div class="cartContainer">
+    {% include 'site-cart' %}
+  </div>
+{% endunless %}
+
+{% comment %} Adds room to the top of the page under the fixed header. {% endcomment %}
+{% unless template contains 'index' %}
+      <div class="bodyWrap-spacer"></div>
+{% endunless %}
+
+
+{% schema %}
+{
+  "name": "Header",
+  "settings": [
+    {
+      "type": "image_picker",
+      "id": "logo",
+      "label": "Custom logo (Home page)",
+      "info": "440px width recommended"
+    },
+    {
+      "type": "image_picker",
+      "id": "logo_other",
+      "label": "Custom logo (All other pages)",
+      "info": "440px width recommended"
+    },
+    {
+      "type": "range",
+      "id": "logo_max_width",
+      "label": "Custom logo width (in pixels)",
+      "min": 50,
+      "max": 500,
+      "default": 100,
+      "step": 5,
+      "unit": "px"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_site_name",
+      "label": "Show site name",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_account_icon",
+      "label": "Show account icon",
+      "default": true
+    },
+    {
+      "type": "header",
+      "content": "Search"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_search",
+      "label": "Show search",
+      "default": true
+    },
+    {
+      "type": "link_list",
+      "id": "menu_searches_list",
+      "label": "Search menu",
+      "info": "This menu won't show dropdown items"
+    },
+    {
+      "type": "header",
+      "content": "Menus"
+    },
+    {
+      "type": "link_list",
+      "id": "menu_1_list",
+      "label": "Primary menu"
+    },
+    {
+      "type": "link_list",
+      "id": "menu_2_list",
+      "label": "Secondary menu",
+      "info": "For Hamburger layout only"
+    },
+    {
+      "type":"header",
+      "content":"Navigation settings"
+    },
+    {
+      "type": "select",
+      "id": "nav_layout",
+      "label": "Navigation layout",
+      "default": "standard",
+      "options": [
+        {
+          "value": "hamburger",
+          "label": "Hamburger"
+        },
+        {
+          "value": "standard",
+          "label": "Standard"
+        }
+      ]
+    },
+    {
+      "type":"header",
+      "content":"Standard navigation",
+      "info":"These options are only applicable if you have enabled Standard navigation above"
+    },
+    {
+      "type": "select",
+      "id": "logo_position",
+      "label": "Logo position",
+      "default": "logo_left",
+      "options": [
+        {
+          "value": "logo_left",
+          "label": "Left"
+        },
+        {
+          "value": "logo_center",
+          "label": "Center"
+        }
+      ]
+    },
+    {
+      "type": "select",
+      "id": "links_position",
+      "label": "Links position",
+      "default": "links_right",
+      "options": [
+        {
+          "value": "links_right",
+          "label": "Right"
+        },
+        {
+          "value": "links_center",
+          "label": "Center"
+        }
+      ]
+    },
+    {
+      "type":"header",
+      "content":"Mega menu"
+    },
+    {
+      "type": "image_picker",
+      "id": "meganav_image",
+      "label": "Image",
+      "info": "Recommended size: 500 x 800 px"
+    },
+    {
+      "type": "text",
+      "id": "meganav_image_heading",
+      "label": "Heading"
+    },
+    {
+      "type": "url",
+      "id": "meganav_image_link",
+      "label": "Link"
+    },
+    {
+      "type":"header",
+      "content":"Announcement bar"
+    },
+    {
+      "type":"checkbox",
+      "id":"show_announcement",
+      "label":"Show announcement",
+      "default": true
+    },
+    {
+      "type":"checkbox",
+      "id":"show_announcement_on_mobile",
+      "label":"Show on mobile",
+      "default": true
+    },
+    {
+      "type": "richtext",
+      "id": "text",
+      "label": "Text",
+      "default":"<p>Broadcast sales, promos, or other offerings here</p>"
+    },
+    {
+      "type": "url",
+      "id": "link",
+      "label": "Link"
+    }
+  ]
+}
+{% endschema %}

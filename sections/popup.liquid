@@ -1,0 +1,150 @@
+<!-- /snippets/popup.liquid -->
+{% assign show_popup = section.settings.show_popup %}
+
+{% if show_popup == 'enabled' %}
+	{% assign show_popup = true %}
+	{% assign testmode = false %}
+{% elsif show_popup == 'disabled' %}
+	{% assign show_popup = false %}
+	{% assign testmode = false %}
+{% else %}
+	{% assign show_popup = true %}
+	{% assign testmode = true %}
+{% endif %}
+
+<div data-section-id="{{ section.id }}" data-section-type="popup">
+	{% if show_popup or testmode %}
+		{% assign delay = section.settings.popup_delay %}
+		{% assign reappear_time = section.settings.popup_reappear_time %}
+		{% assign image = section.settings.popup_image %}
+		{% assign popup_header = section.settings.popup_header %}
+		{% assign popup_content = section.settings.popup_content %}
+
+		<section id="popup" class="modal popup text-center {% if image == blank%}popup--no-image{% endif %}" style="display: none;" data-enabled="{{ show_popup }}" data-testmode="{{ testmode }}" data-delay="{{ delay }}" data-reappear_time="{{ reappear_time }}">
+			<div class="popup-wrap">
+				{% if image != blank %}
+					<div class="popup-column popup-image lazyload fade-in" data-bgset="{% include 'bgset', image: image %}" data-sizes="auto"></div>
+					<noscript>
+						<div class="popup-column popup-image" style="background-image: url('{{ image | img_url: '512x' }}'); background-size: cover; background-position: center center; background-repeat: no-repeat;"></div>
+					</noscript>
+				{% endif %}
+
+				<div class="popup-column">
+					<div class="popup-column-content">
+						{% if popup_content != blank or popup_header != "" %}
+							<h2>{{ popup_header | truncatewords: 10 }}</h2>
+							{{ popup_content | truncate: 300  }}
+						{% else %}
+							{{ 'homepage.onboarding.popup_html' | t }}
+						{% endif %}
+						{% if section.settings.show_popup_newsletter %}
+							{% form 'customer' %}
+								<div class="js-signUp-form signUp-form">
+									<input type="hidden" id="contact_tags" name="contact[tags]" value="newsletter"/>
+									<div class="inputGroup mc-field-group">
+										<label for="mce-EMAIL" class="accessible-label">{{ 'general.slide_out_navigation.search_label' | t }}</label>
+										<input class="signUp-input required email" type="email" value="" name="contact[email]" id="mce-EMAIL">
+										<input type="hidden" id="newsletter-first-name" name="contact[first_name]" value="Newsletter" />
+										<input type="hidden" id="newsletter-last-name" name="contact[last_name]" value="Subscriber" />
+										<span class="signUp-mailIcon icon-mail"></span>
+										<button type="submit" class="signUp-submit icon-arrow-right" name="subscribe" id="mc-embedded-subscribe"></button>
+									</div>
+								</div>
+								{% if form.posted_successfully? %}
+									<div class="signUp-confirmation p">{{ 'general.newsletter_signup.success_message' | t }}</div>
+								{% elsif form.errors %}
+									{{ form.errors | default_errors }}
+								{% endif %}
+							{% endform %}
+						{% endif %}
+					</div>
+				</div>
+			</div>
+		</section>
+	{% endif %}
+</div>
+
+
+{% schema %}
+{
+	"name": "Popup",
+	"settings": [
+		{
+			"type": "select",
+			"id": "show_popup",
+			"label": "Display mode",
+			"options": [
+				{
+					"value": "enabled",
+					"label": "Enabled"
+				},
+				{
+					"value": "disabled",
+					"label": "Disabled"
+				},
+				{
+					"value": "testmode",
+					"label": "Test mode"
+				}
+			]
+		},
+		{
+			"label": "Heading",
+			"type": "text",
+			"id": "popup_header",
+			"default":"Use the popup to catch emails and showcase promotions"
+		},
+		{
+			"label": "Text",
+			"type": "richtext",
+			"id": "popup_content",
+			"default":"<p>Remember that popups can be a distracting to limit their frequency below.</p>"
+		},
+		{
+			"label": "Show newsletter form",
+			"type": "checkbox",
+			"id": "show_popup_newsletter",
+			"default": true
+		},
+		{
+			"type": "range",
+			"id": "popup_delay",
+			"label": "Delay until the popup appears",
+			"unit": "sec",
+			"min": 0,
+			"max": 60,
+			"step": 1,
+			"default": 5
+		},
+		{
+			"type": "select",
+			"id": "popup_reappear_time",
+			"label": "Number of weeks before the popup re-appears",
+			"default": "7",
+			"options": [
+				{
+					"value": "0",
+					"label": "None"
+				},
+				{
+					"value": "7",
+					"label": "1 week"
+				},
+				{
+					"value": "14",
+					"label": "2 weeks"
+				},
+				{
+					"value": "21",
+					"label": "3 weeks"
+				}
+			]
+		},
+		{
+			"type": "image_picker",
+			"id": "popup_image",
+			"label": "Image"
+		}
+	]
+}
+{% endschema %}

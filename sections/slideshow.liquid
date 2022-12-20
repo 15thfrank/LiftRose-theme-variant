@@ -1,0 +1,365 @@
+{% include 'slideshow' %}
+
+{% comment %} Schema {% endcomment %}
+{% schema %}
+{
+	"name": "Slideshow",
+	"max_blocks": 6,
+	"class": "section-slideshow header--full",
+	"settings": [
+	{
+		"type": "checkbox",
+		"id": "showNavDots",
+		"label": "Show slide navigation dots",
+		"default": true
+	},
+	{
+		"type": "checkbox",
+		"id": "showNavArrows",
+		"label": "Show slide navigation arrows",
+		"default": true
+	},
+	{
+		"type": "checkbox",
+		"id": "autoplay",
+		"label": "Autoplay slideshow",
+		"default": false
+	},
+	{
+		"type": "checkbox",
+		"id": "parallax",
+		"label": "Add parallax effects",
+		"default": false
+	},
+	{
+		"type": "select",
+		"id": "transition",
+		"label": "Transition style",
+		"default": "slide",
+		"options": [
+			{ "label": "Slide", "value": "slide" },
+			{ "label": "Fade", "value": "fade" },
+			{ "label": "Zoom out", "value": "zoom-out" }
+		]
+	},
+	{
+		"type": "range",
+		"id": "duration",
+		"min": 2,
+		"max": 5,
+		"step": 1,
+		"unit": "sec",
+		"label": "Change slides every",
+		"default": 4
+	},
+	{
+		"type": "select",
+		"id": "dots_position",
+		"label": "Dots position",
+		"default": "center",
+		"options": [
+			{ "label": "Left", "value": "left" },
+			{ "label": "Center", "value": "center" },
+			{ "label": "Right", "value": "right" }
+		]
+	},
+	{
+		"type": "select",
+		"id": "slide_height",
+		"label": "Slide height",
+		"default": "one-hundred-height-hero",
+		"options": [
+			{
+				"value": "one-hundred-height-hero",
+				"label": "Full screen height"
+			},
+			{
+				"value": "original-height",
+				"label": "Image height"
+			},
+			{
+				"value": "seven-fifty-height-hero",
+				"label": "750px"
+			},
+			{
+				"value": "sixty-fifty-height-hero",
+				"label": "650px"
+			},
+			{
+				"value": "five-fifty-height-hero ",
+				"label": "550px"
+			},
+			{
+				"value": "four-fifty-height-hero",
+				"label": "450px"
+			}
+		]
+	},
+	{
+		"type": "checkbox",
+		"id": "show_arrow_down",
+		"label": "Show arrow down",
+		"default": false
+	}
+	],
+	"blocks": [
+	{
+		"type": "image",
+		"name": "Slide",
+		"settings": [
+			{
+				"type": "image_picker",
+				"id": "image",
+				"label": "Image desktop"
+			},
+			{
+				"type": "image_picker",
+				"id": "image_mobile",
+				"label": "Image mobile",
+				"info": "Desktop image will be used if not set"
+			},
+			{
+				"type": "select",
+				"id": "image_position",
+				"label": "Image position",
+				"default": "center-center",
+				"options": [
+					{ "label": "Top", "value": "top-center" },
+					{ "label": "Right", "value": "right-center" },
+					{ "label": "Center", "value": "center-center" },
+					{ "label": "Left", "value": "left-center" },
+					{ "label": "Bottom", "value": "bottom-center" }
+				]
+			},
+			{
+				"type": "select",
+				"id": "alignment",
+				"label": "Slide content alignment",
+				"default": "center",
+				"options": [
+					{
+						"value": "left",
+						"label": "Left"
+					},
+					{
+						"value": "center",
+						"label": "Center"
+					},
+					{
+						"value": "right",
+						"label": "Right"
+					},
+					{
+						"value": "bottom-left",
+						"label": "Bottom left"
+					},
+					{
+						"value": "bottom-right",
+						"label": "Bottom right"
+					}
+				]
+			},
+			{
+				"type": "select",
+				"id": "content_width",
+				"label": "Slide content width",
+				"default": "one-half",
+				"options": [
+					{
+						"value": "one-third",
+						"label": "33%"
+					},
+					{
+						"value": "one-half",
+						"label": "50%"
+					},
+					{
+						"value": "full-width",
+						"label": "100%"
+					}
+				]
+			},
+			{
+				"type": "select",
+				"id": "color_style",
+				"label": "Color",
+				"default": "white",
+				"options": [
+					{
+						"value": "white",
+						"label": "Light"
+					},
+					{
+						"value": "black",
+						"label": "Dark"
+					}
+				]
+			},
+			{
+				"type": "text",
+				"id": "subheading",
+				"label": "Subheading"
+			},
+			{
+				"type": "text",
+				"id": "title",
+				"label": "Heading",
+				"default": "Welcome to Modular"
+			},
+			{
+				"type": "richtext",
+				"id": "text",
+				"label": "Text",
+				"default": "<p>A unique layout with a striking design</p>"
+			},
+			{
+				"type": "text",
+				"id": "cta",
+				"label": "Button label",
+				"default": "Shop Now"
+			},
+			{
+				"type": "url",
+				"id": "link",
+				"label": "Button link",
+				"default":"/collections/all"
+			},
+			{
+				"type": "text",
+				"id": "cta_2",
+				"label": "Second button label"
+			},
+			{
+				"type": "url",
+				"id": "link_2",
+				"label": "Second button link"
+			},
+			{
+				"type": "header",
+				"content": "Typography"
+			},
+			{
+				"type": "select",
+				"id": "heading_size",
+				"label": "Heading size",
+				"default": "large",
+				"options": [
+					{ "label": "Small", "value": "small" },
+					{ "label": "Normal", "value": "normal" },
+					{ "label": "Large", "value": "large" },
+					{ "label": "Extra large", "value": "xlarge" }
+				]
+			},
+			{
+				"type": "select",
+				"id": "text_size",
+				"label": "Text size",
+				"default": "normal",
+				"options": [
+					{ "label": "Small", "value": "small" },
+					{ "label": "Normal", "value": "normal" },
+					{ "label": "Large", "value": "large" },
+					{ "label": "Extra large", "value": "xlarge" }
+				]
+			},
+			{
+				"type": "header",
+				"content": "Overlay"
+			},
+			{
+				"type": "color",
+				"id": "overlay_color",
+				"label": "Color",
+				"default": "#333"
+			},
+			{
+				"type": "range",
+				"id": "overlay_opacity",
+				"label": "Opacity",
+				"min":0,
+				"max":95,
+				"step":5,
+				"unit":"%",
+				"default": 30
+			},
+			{
+				"type": "header",
+				"content": "Buttons style"
+			},
+			{
+				"type": "select",
+				"id": "button_size",
+				"label": "Size",
+				"default": "normal",
+				"options": [
+					{ "label": "Normal", "value": "normal" },
+					{ "label": "Large", "value": "large" }
+				]
+			},
+			{
+				"type": "header",
+				"content": "Primary button colors"
+			},
+			{
+				"type": "color",
+				"id": "cta_color",
+				"label": "Text",
+				"default": "#ffffff"
+			},
+			{
+				"type": "color",
+				"id": "cta_bg",
+				"label": "Background",
+				"default": "#333333"
+			},
+			{
+				"type": "color",
+				"id": "cta_border",
+				"label": "Border",
+				"default": "transparent"
+			},
+			{
+				"type": "header",
+				"content": "Secondary button colors"
+			},
+			{
+				"type": "color",
+				"id": "cta_2_color",
+				"label": "Text",
+				"default": "#333333"
+			},
+			{
+				"type": "color",
+				"id": "cta_2_bg",
+				"label": "Background",
+				"default": "#ffffff"
+			},
+			{
+				"type": "color",
+				"id": "cta_2_border",
+				"label": "Border",
+				"default": "transparent"
+			}
+		]
+	}
+	],
+	"presets": [
+		{
+			"name": "Slideshow",
+			"category": "image",
+			"settings": {
+			"showNavArrows": "true",
+			"autoplay": true
+			},
+			"blocks": [
+				{
+					"type": "image"
+				},
+				{
+					"type": "image"
+				}
+			]
+		}
+	]
+}
+{% endschema %}

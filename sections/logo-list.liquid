@@ -1,0 +1,102 @@
+{% comment %} Logos List {% endcomment %}
+
+{% if section.blocks.size > 0 %}
+<div data-section-id="{{ section.id }}" data-section-type="logos-list">
+  <div class="logos-list" style="background-color: {{ section.settings.color_logos_bg }};">
+    <div class="logos-list-wrapper">
+      <div class="logos-slider js-logos-slider">
+        <p class="cpapp">Connects to popular CPAP machine brands<br><a href="/pages/compatibility-chart" style="font-size: 0.85em;text-decoration: none;" target="_blank"><span class="cpapcomp"><em>Check Your Machine's Compatibility</em></span></a></p>
+        {% for block in section.blocks %}
+          {% assign logo_image = block.settings.logo_image %}
+          {% assign logo_url = block.settings.logo_url %}
+
+          {% if logo_image != blank %}
+            <div class="js-slide" data-block="item_logo" {{ block.shopify_attributes }}>
+              <a href="{{ logo_url }}"
+                class="logos-slider__item lazyload fade-in"
+                data-bgset="{% include 'bgset', image: logo_image %}"
+                data-sizes="auto"
+                data-parent-fit="cover"
+                data-aspectratio="{{ logo_image.aspect_ratio }}"
+                ></a>
+
+              <noscript>
+                <a href="{{ logo_url }}" class="logos-slider__item no-js-image"
+                style="background-image: url({{ block.settings.logo_image | img_url: '180x' }});">
+                </a>
+              </noscript>
+            </div>
+          {% else %}
+            <div class="js-slide" data-block="item_logo" {{ block.shopify_attributes }}>
+              <a href="#!" class="logos-slider__item svg-placeholder">
+                {% capture current %}{% cycle 1, 2, 3, 4, 5, 6 %}{% endcapture %}
+                {{ 'collection-' | append: current | placeholder_svg_tag }}
+              </a>
+            </div>
+          {% endif %}
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+</div>
+{% endif %}
+
+{% schema %}
+{
+  "name": "Logo list",
+  "max_blocks": 25,
+  "class": "logos-list",
+  "settings": [
+    {
+      "type": "color",
+      "id": "color_logos_bg",
+      "label": "Background color",
+      "default": "#fafafa"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "item_logo",
+      "name": "Logo",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "logo_image",
+          "label": "Image"
+        },
+        {
+          "type": "url",
+          "id": "logo_url",
+          "label": "Link"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Logo list",
+      "category": "Image",
+      "blocks": [
+        {
+          "type": "item_logo"
+        },
+        {
+          "type": "item_logo"
+        },
+        {
+          "type": "item_logo"
+        },
+        {
+          "type": "item_logo"
+        },
+        {
+          "type": "item_logo"
+        },
+        {
+          "type": "item_logo"
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

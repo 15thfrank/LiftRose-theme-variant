@@ -1,0 +1,45 @@
+<div id="add-to-cart-bar" class="product-bar">
+	{% form 'product', product, class:'productForm product-bar__form', data-color_swatches: color_swatches %}
+    <div class="productForm-block">
+  		<select id="product-bar-select" name="id">
+      {% for variant in product.variants %}
+        <option{% if variant == product.selected_or_first_available_variant %} selected{% endif %} value="{{ variant.id }}" data-sku="{{variant.sku}}">
+        {{ variant.title }} - {{ variant.price | money | strip_html }}
+      	</option>
+      {% endfor %}
+      </select>
+    </div>
+    
+    <input type="hidden" class="inputCounter" name="quantity" value="1" />
+    
+    <div class="productForm-block">
+      <button class="productForm-submit js-productForm-submit" type="submit" name="checkout" data-handle="{{product.handle}}">{{ 'products.form.submit' | t }}</button>
+    </div>
+  {% endform %}
+
+  <div class="product-bar__info">
+		{% assign image = product.featured_image %}
+  	{% assign image_widths = '100,160,240' %}
+    {% include 'theme-rias' %}
+      <div class="product-bar__image">
+        <img 
+           class="lazyload fade-in"
+           data-src="{{ image_url_pattern }}"
+           data-widths= "[{{ image_widths }}]"
+           data-aspectratio="{{image.aspect_ratio }}"
+           data-sizes="auto"
+           alt="{{ image.alt | escape }}"
+           itemprop="image"
+           >
+         <noscript>
+          <img src="{{ image | img_url: 'small' }}" alt="{{ image.alt | escape }}">
+        </noscript>
+      </div>
+  	<h2 class="product-bar__title">{{ product.title }}</h2>
+
+  	<div class="product-bar__price">
+      {% include 'product-price' %}
+    </div>
+	</div>
+</div>
+<!-- end add-to-cart -->

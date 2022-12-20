@@ -1,0 +1,7 @@
+<div class="product-price" data-price="{{ product.price }}">
+	<div class="sale" {% unless on_sale %}style="display: none;"{% endunless %}>
+	    <strike class="product-compare-price">{{ product.compare_at_price | money }}</strike>&nbsp;
+	    <span class="product-sale-price" itemprop="price">{{ product.price | money }}</span>
+  	</div>
+	<div class="product-normal-price" itemprop="price" {% if on_sale %}style="display: none;"{% endif %}>{{ product.price | money }}</div>
+</div>

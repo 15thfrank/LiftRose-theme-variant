@@ -1,0 +1,208 @@
+{% comment %} Settings {% endcomment %}
+{% assign showNavDots = section.settings.showNavDots %}
+{% assign showNavArrows = section.settings.showNavArrows %}
+{% assign parallax = section.settings.parallax %}
+{% assign transition = section.settings.transition %}
+{% assign autoplay = section.settings.autoplay %}
+{% assign hover = true %}
+{% assign speed = 400 %}
+{% assign fadeMode = true %}
+{% if transition == 'slide' %}
+	{% assign fadeMode = false %}
+{% endif %}
+{% assign duration = section.settings.duration | times:1000 %}
+{% assign dots_position = section.settings.dots_position %}
+
+{% comment %} Check if Image Height setting is selected {% endcomment %}
+{% assign original_height = false %}
+{% if section.settings.slide_height == 'original-height' %}
+{% assign original_height = true %}
+{% endif %}
+
+{% comment %} Layout {% endcomment %}
+{% assign alignment = section.settings.alignment %}
+{% assign contentWidth = section.settings.content_width %}
+			 
+{% comment %} Section {% endcomment %}
+<section class="container-wrap hero hero-slider js-hero-slider {% if parallax %}hero--parallax{% endif %} {% if transition == 'zoom-out' %}hero--zoom-out{% endif %} hero--is-loading hero--dots-{{ dots_position }} {{ section.settings.slide_height }}" id="slideshow-module-{{ section.id }}" data-section-type="slideshow" data-slick="{ 'arrows':{{ showNavArrows }}, 'dots':{{ showNavDots }}, 'autoplay':{{ autoplay }}, 'dotsClass':'slick-dots hero-dots-row row row-lg', 'autoplaySpeed':{{duration}}, 'speed':{{ speed }}, 'adaptiveHeight':{{ original_height }}, 'pauseOnHover':{{ hover }}, 'fade':{{ fadeMode }}, 'infinite':true }" data-image-height="{{section.settings.slide_height}}">
+	{% for block in section.blocks %}
+
+		{% comment %} Layout {% endcomment %}
+		{% assign alignment = block.settings.alignment %}
+		{% assign contentWidth = block.settings.content_width %}
+		
+		{% comment %} Colors {% endcomment %}
+		{% unless block.settings.overlay_color == blank %}
+			{% assign overlayColor = block.settings.overlay_color  %}
+		{% else %}
+			{% assign overlayColor = 'none' %}
+		{% endunless %}
+		{% assign overlayOpacity = block.settings.overlay_opacity | prepend: '.' %}
+		
+		{% assign color_style = block.settings.color_style %}
+
+		{% assign buttonPrimaryText = block.settings.cta_color %}
+		{% assign buttonPrimaryBackground = block.settings.cta_bg %}
+		{% assign buttonPrimaryBorder = block.settings.cta_border | default: 'transparent' %}
+
+		{% assign buttonSecondaryText = block.settings.cta_2_color %}
+		{% assign buttonSecondaryBackground = block.settings.cta_2_bg %}
+		{% assign buttonSecondaryBorder = block.settings.cta_2_border | default: 'transparent' %}
+
+		{% comment %} Typography {% endcomment %}
+		{% assign heading_size = block.settings.heading_size %}
+		{% assign text_size = block.settings.text_size %}
+
+		{% comment %} Content {% endcomment %}
+		{% assign heading = block.settings.title  %}
+		{% assign subheading = block.settings.subheading  %}
+		{% assign text = block.settings.text %}
+		{% assign cta = block.settings.cta %}
+		{% assign link = block.settings.link %}
+		{% assign cta_2 = block.settings.cta_2 %}
+		{% assign link_2 = block.settings.link_2 %}
+		{% if block.settings.image %}
+		{% assign has_bg = true %}
+		{% else %}
+		{% assign has_bg = false %}
+		{% endif %}
+
+		{% assign counter = 1 %}
+
+		<div class="hero-slide js-slide hero-slide--{{ alignment }} hero-slide--style-{{ color_style }}" {{ block.shopify_attributes }} data-block="slide" data-slick-index="{{ forloop.index }}" data-style="{{ color_style }}">
+			<div class="overlay" data-overlay-opacity="{{ overlayOpacity }}" style="background-color: {{ overlayColor }} !important; opacity: {{ overlayOpacity }};"></div>
+			<div class="slide-inner">
+				{% unless heading == blank and subheading == blank and text == blank and cta == blank %}
+					{% if original_height %}
+					<div class="slide-text">
+					{% endif %}
+						<div class="container">
+							<div class="row row-lg">
+								<div class="slide-content {% unless has_bg %}no-background{% endunless %} slide-content--{{ contentWidth }}">
+									{% if subheading != blank %}
+										<div class="slide-content__subheading subheading-text">{{ subheading }}</div>
+									{% endif %}
+
+									{% if heading != blank %}
+										<h1 class="slide-content__heading size--{{ heading_size }}">{{ heading }}</h1>
+									{% endif %}
+
+									{% if text != blank %}
+										<div class="slide-content__text size--{{ text_size }}">{{ text }}</div>
+									{% endif %}
+
+									{% if cta != blank %}
+										<a tabindex="0" {% if link != blank %}href="{{ link }}"{% endif %} class="button button--{{ block.settings.button_size }} button--primary" aria-label = "{{ cta }}" title="{{ cta }}" style="color: {{ buttonPrimaryText }}; background-color: {{ buttonPrimaryBackground }}; border-color: {{ buttonPrimaryBorder }};">{{ cta }}</a>
+									{% endif %}
+
+									{% if cta_2 != blank %}
+										<a tabindex="0" {% if link_2 != blank %}href="{{ link_2 }}"{% endif %} class="button button--{{ block.settings.button_size }} button--secondary" aria-label = "{{ cta_2 }}" title="{{ cta_2 }}" style="color: {{ buttonSecondaryText }}; background-color: {{ buttonSecondaryBackground }}; border-color: {{ buttonSecondaryBorder }};">{{ cta_2 }}</a>
+									{% endif %}
+								</div>
+							</div>
+						</div>
+					{% if original_height %}
+					</div>
+					{% endif %}
+				{% endunless %}
+
+				{%- if has_bg -%}
+					{%- assign has_mobile_image = false -%}
+					{%- unless block.settings.image_mobile == blank -%}
+						{%- assign has_mobile_image = true -%}
+					{%- endunless -%}
+
+					{%- if original_height -%}
+					<div class="slide-image-container {% if has_mobile_image %}slide-image--has-mobile{% endif %}">
+						<div class="slide-image slide-image--desktop">
+							{%- assign image = block.settings.image -%}
+							{%- assign image_widths = '295,394,590,700,800,1000,1200,1500,1800,2000,2400' -%}
+							{% include 'theme-rias' %}
+							<img 
+								class="lazyload fade-in"
+								data-src="{{ image_url_pattern }}"
+								data-widths= "[{{ image_widths }}]"
+								data-aspectratio="{{image.aspect_ratio }}"
+								data-sizes="auto"
+								alt="{{ image.alt | escape }}">
+								<noscript>
+								<img src="{{ image | img_url: '2048x' }}" alt="{{ image.alt | escape }}">
+								</noscript>
+						</div>
+
+						{%- if has_mobile_image -%}
+							<div class="slide-image slide-image--mobile">
+								{%- assign image = block.settings.image_mobile -%}
+								{%- assign image_widths = '295,394,590,700,800,1000,1200,1500,1800,2000,2400' -%}
+								{% include 'theme-rias' %}
+								<img 
+									class="lazyload fade-in"
+									data-src="{{ image_url_pattern }}"
+									data-widths= "[{{ image_widths }}]"
+									data-aspectratio="{{image.aspect_ratio }}"
+									data-sizes="auto"
+									alt="{{ image.alt | escape }}">
+									<noscript>
+									<img src="{{ image | img_url: '2048x' }}" alt="{{ image.alt | escape }}">
+									</noscript>
+							</div>
+						{%- endif -%}
+					</div>
+					
+					{%- else -%}
+						<div class="slide-background-container {% if has_mobile_image %}slide-background--has-mobile{% endif %}">
+							{%- assign image = block.settings.image -%}
+							<div class="slide-background slide-background--desktop slide-background--{{ block.settings.image_position }} lazyload fade-in"
+								data-bgset="{% include 'bgset', image %}"
+								data-sizes="auto"
+								data-parent-fit="cover"
+							>
+							</div>
+							<noscript>
+								<div class="slide-background slide-background--desktop slide-background--{{ block.settings.image_position }}"
+								style="background-image:url('{{ block.settings.image | img_url: '2048x' }}');"
+								></div>
+							</noscript>
+							
+							{%- if has_mobile_image -%}
+								{%- assign image = block.settings.image_mobile -%}
+								<div class="slide-background slide-background--mobile slide-background--{{ block.settings.image_position }} lazyload fade-in"
+									data-bgset="{% include 'bgset', image %}"
+									data-sizes="auto"
+									data-parent-fit="cover"
+								>
+								</div>
+								<noscript>
+									<div class="slide-background slide-background--mobile slide-background--{{ block.settings.image_position }}"
+									style="background-image:url('{{ block.settings.image | img_url: '2048x' }}');"
+									></div>
+								</noscript>
+							{%- endif -%}
+						</div>
+							
+					{%- endif -%}
+				{%- else -%}
+					{%- if original_height -%}
+						<div class="slide-image">
+						{% capture current %}{% cycle 1, 2 %}{% endcapture %}
+							<div class = "slide-image--blank">
+								{{ 'lifestyle-' | append: current | placeholder_svg_tag: 'placeholder-svg' }}
+							</div>
+						</div>
+					{%- else -%}
+						<div class="slide-background slide-background--placeholder">
+						{% capture current %}{% cycle 1, 2 %}{% endcapture %}
+							<div class = "slide-background--blank">
+								{{ 'lifestyle-' | append: current | placeholder_svg_tag: 'placeholder-svg' }}
+							</div>
+						</div>
+					{%- endif -%}
+				{%- endif -%}
+			</div>
+		</div>
+		{% assign counter = counter | plus:1 %}
+	{% endfor %}
+</section>
+{% if section.settings.show_arrow_down %}
+	<a href="#" class="hero-scroll-down js-scroll-down" title="{{ 'slideshow.scroll_down' | t }}"><span class="icon icon-arrow-down"></span></a>
+{% endif %}

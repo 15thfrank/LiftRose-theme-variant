@@ -1,0 +1,31 @@
+{% comment %} Section {% endcomment %}
+{% assign row_split = false %}
+{% if layout == 'split' and title != blank and content != blank %}
+	{% assign row_split = true %}
+{% endif %}
+
+{% if title != blank or content != blank or cta != blank %}
+<section class="title-module container-wrap" id="text-module-{{ id }}" data-section-type="rich-text">
+	<div class="container pad-sm">
+		<div class="row {% if row_split %} row--split row-lg {% else %} row-sm {% endif %}">
+			{% if title != blank %}
+				<h4 class="size--{{ heading_size }} align--{{ heading_align }}">{{ title }}</h4>
+			{% endif %}
+
+			{% include 'accent-line' %}
+
+			{% if content != blank %}
+				<div class="rich-content size--small {% if cta == blank %}no-button{% endif %}">{{ content }}</div>
+			{% endif %}
+		</div>
+
+		{% if cta != blank %}
+			<div class="row row-lg">
+				<div class="button-wrap">
+					<a href="{{ link }}" class="button" title="{{ cta }}">{{ cta }}</a>
+				</div>
+			</div>
+		{% endif %}
+	</div>
+</section>
+{% endif %}

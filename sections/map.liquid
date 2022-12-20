@@ -1,0 +1,178 @@
+{% comment %} Section {% endcomment %}
+<div
+{% if section.settings.api_key != blank %}
+  data-section-type="map" 
+  data-key="{{ section.settings.api_key }}"
+  data-address = "{{ section.settings.map_address }}"
+  data-section-id="{{ section.id }}"
+  data-style="{{ section.settings.style }}"
+  data-zoom="{{ section.settings.zoom }}"
+  {% endif %}
+>
+  {% if section.settings.api_key != blank %}
+    <div class="map--{{section.id}} map {{ section.settings.map_height }}"></div>
+  {% else %}
+    <div
+      data-bgset="{% include 'bgset', image: section.settings.background_image %}"
+      data-sizes="auto"
+      data-parent-fit="cover"
+      style="
+        {% if section.settings.background_image == blank and section.settings.api_key == blank %}
+        background-image: url(' {% include 'placeholder_svg_uri', placeholder : 'lifestyle-2' %}');
+        background-color: #fafafa;
+        {% endif %}"
+        class="lazyload fade-in {{ section.settings.map_height }} map--bg {% if section.settings.background_image == blank %}placeholder-svg-filled{% endif %}"
+    ></div>
+    
+    <noscript>
+    {% if section.settings.background_image %}
+      <div style="background-image: url('{{ section.settings.background_image | img_url: '2048x' }}');" class="map map--bg {{ section.settings.map_height }}"></div>
+    {% endif %}
+  </noscript>
+  {% endif %}
+
+  {% if section.settings.location_title != blank or section.settings.address != blank %}
+  <div class="map__info" style="background-color:{{section.settings.card_color}};">
+    <div class="map__info_title h2"><div>{{ section.settings.location_title }} <span class="map__info_subheading">{{ section.settings.location_subheading }}</span></div></div>
+    <div class="map__address_container"><div>{{ section.settings.address }}</div></div>
+    <div class="map__hours_container"><div>{{ section.settings.hours }}</div></div>
+  </div>
+  {% endif %}
+</div>
+
+  
+
+{% comment %} Schema {% endcomment %}
+{% schema %}
+  {
+    "name": "Map",
+    "class": "map-section",
+    "settings": [
+      {
+        "id": "api_key",
+        "type": "text",
+        "label": "Google Maps API key",
+        "info": "You’ll need to [register a Google Maps API Key](https://help.shopify.com/manual/using-themes/troubleshooting/map-section-api-key) to display the map"
+      },
+      {
+        "type":"text",
+        "id":"map_address",
+        "label":"Map address",
+        "info": "Google Maps will find the exact location",
+        "default": "5 Rue Saint-Jacques, Paris, France 75005"
+      },
+      {
+        "type": "select",
+        "id": "map_height",
+        "label": "Map height",
+        "default": "five-fifty-height-hero",
+        "options": [
+          {
+            "value": "one-hundred-height-hero",
+            "label": "Full screen height"
+          },
+          {
+            "value": "seven-fifty-height-hero",
+            "label": "750px"
+          },
+          {
+            "value": "sixty-fifty-height-hero",
+            "label": "650px"
+          },
+          {
+            "value": "five-fifty-height-hero",
+            "label": "550px"
+          },
+          {
+            "value": "four-fifty-height-hero",
+            "label": "450px"
+          }
+        ]
+      },
+      {
+        "id": "location_title",
+        "type": "text",
+        "label": "Heading",
+        "default": "Modular"
+      },
+      {
+        "id": "location_subheading",
+        "type": "text",
+        "label": "Subheading",
+        "default": "Come visit our store"
+      },
+      {
+        "id": "address",
+        "type": "text",
+        "label": "Address",
+        "default": "566 Emerson Street<br>Palo Alto, California"
+      },
+       {
+        "id": "hours",
+        "type": "textarea",
+        "label": "Hours",
+        "default": "Mon - Fri, 8am - 11pm<br>Saturday, 8am - 12pm<br>Sunday, 9am - 11pm"
+      },
+      {
+        "id": "card_color",
+        "type": "color",
+        "label": "Card color",
+        "default": "#fff"
+      },
+      {
+      "type": "select",
+      "id": "style",
+      "label": "Style",
+      "default": "standard",
+      "options": [
+        {
+          "value": "standard",
+          "label": "Standard"
+        },
+        {
+          "value": "silver",
+          "label": "Silver"
+        },
+        {
+          "value": "retro",
+          "label": "Retro"
+        },
+        {
+          "value": "dark",
+          "label": "Dark"
+        },
+        {
+          "value": "night",
+          "label": "Night"
+        },
+        {
+          "value": "aubergine",
+          "label": "Aubergine"
+        }
+      ]
+    },
+    {
+      "type": "range",
+      "id": "zoom",
+      "min": 1,
+      "max": 20,
+      "step": 1,
+      "label": "Zoom",
+      "info":"Low levels cover a wide area, while higher levels cover a smaller area.",
+      "default": 12
+    },
+    {
+      "type": "image_picker",
+      "id": "background_image",
+      "label": "Image",
+      "info": "Displayed if the map isn’t loaded"
+    }
+    ],
+    "presets": [
+      {
+        "name": "Map",
+        "category": "Store information"
+      }
+    ]
+  }
+{% endschema %}

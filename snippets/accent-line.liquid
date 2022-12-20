@@ -1,0 +1,7 @@
+{%- unless accent_line == 'none' -%}
+<div class="accent-line accent-line--{{ accent_line }}">
+  {%- if accent_line == 'curved' -%}
+    {% include 'icon-curved-line' %}
+  {%- endif -%}
+</div>
+{%- endunless -%}

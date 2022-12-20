@@ -1,0 +1,31 @@
+<div class="feature-item {% if is_block_odd %}feature-item--odd{% endif %}" data-alignment="{{ blocks_alignment }}">
+  <div class = "feature-image {% if settings.transition_product_features %}will-animate{% endif %}" data-animation="{% if is_block_odd %}fadeInRight{% else %}fadeInLeft{% endif %}">
+    {% if image_link != blank %}<a href="{{ image_link }}">{% endif %}
+      {% if image != blank %}
+        {% assign image_widths = '295,394,590,700,800,1000,1200,1500,1800,2000,2400' %}
+        {% include 'theme-rias' %}
+        <img 
+           class="lazyload fade-in"
+           data-src="{{ image_url_pattern }}"
+           data-widths= "[{{ image_widths }}]"
+           data-aspectratio="{{image.aspect_ratio }}"
+           data-sizes="auto"
+           alt="{{ image.alt | escape }}">
+        <noscript>
+          <img src="{{ image | img_url: '1024x' }}" alt="{{ image.alt | escape }}">
+        </noscript>
+      {% else %}
+        {{ 'image' | placeholder_svg_tag: "placeholder-svg-filled" }}
+      {% endif %}
+      {% if image_link != blank %}</a>{% endif %}
+  </div>
+  <div class="feature-text {% if settings.transition_product_features %}will-animate{% endif %}" data-animation="{% if is_block_odd %}fadeInLeft{% else %}fadeInRight{% endif %}">
+    <div class="feature-text-wrap">
+      <h1 class="size--{{ heading_size }}">{{ heading | escape }}</h1>
+      <div class="feature-text__p size--large">{{ description }}</div>
+      {% if button_text != blank %}
+      <a href="{{ button_link }}" class="button">{{ button_text }}</a>
+      {% endif %}
+    </div>
+  </div>
+</div>

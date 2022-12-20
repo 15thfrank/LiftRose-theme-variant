@@ -1,0 +1,74 @@
+{% comment %} FAQ Template {% endcomment %}
+
+<div data-section-id="{{ section.id }}" data-section-type="faq-template">
+  {% unless section.settings.hide_title %}
+  <section class="page-title container-wrap">
+    <div class="container">
+      <div class="row row-lg inline u-center">
+        <h1>{{ page.title }}</h1>
+      </div>
+    </div>
+  </section>
+  {% endunless %}
+  
+  {% unless page.content == blank %}
+  <div class="container-wrap">
+    <div class="container text-content rte">
+      <div class="row row-sm u-center">
+        {{ page.content }}
+      </div>
+    </div>
+  </div>
+  {% endunless %}
+  
+  {% assign heading = section.settings.title %}
+  {% assign subheading = section.settings.subheading %}
+  {% assign is_faq_template = true %}
+  
+  {% include 'faq' %}
+</div>
+
+{% schema %}
+{
+  "name": "FAQ",
+  "settings": [
+    {
+      "type": "checkbox",
+      "id": "hide_title",
+      "label": "Hide page title",
+      "default": false
+    },
+    {
+      "type": "text",
+      "id": "subheading",
+      "label": "Subheading",
+      "default": "Questions and answers"
+    },
+    {
+      "type": "richtext",
+      "id": "text",
+      "label": "Text"
+    }
+  ],
+  "blocks": [
+    {
+      "name": "Item",
+      "type": "item",
+      "settings": [
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Question",
+          "default": "Question"
+        },
+        {
+          "type": "textarea",
+          "id": "answer",
+          "label": "Answer",
+          "default": "<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Vero nihil at impedit nam commodi magni quas fuga, porro asperiores repellendus, doloribus voluptate labore eligendi. Aliquid cupiditate, quaerat magnam et, mollitia iusto, voluptas error quos nemo sunt neque iure corporis dolor.</p>"
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

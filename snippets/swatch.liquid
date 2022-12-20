@@ -1,0 +1,68 @@
+{% comment %}
+  Set the extension of your color files below. Use 'png', 'jpeg', 'jpg' or 'gif'.
+{% endcomment %}
+
+{% assign file_extension = 'png' %}
+
+{% if swatch == blank %}
+  <div class="swatch error">
+    <p>You must include the snippet swatch.liquid with the name of a product option.</p> 
+    <p>Use: <code>{% raw %}{% include 'swatch' with 'name of your product option here' %}{% endraw %}</code></p>
+    <p>Example: <code>{% raw %}{% include 'swatch' with 'Color' %}{% endraw %}</code></p>
+  </div>
+{% else %}
+
+  {% assign found_option = false %}
+  {% assign is_color = false %}
+  {% assign option_index = 0 %}
+
+  {% for option in product.options %}
+    {% if option == swatch %}
+      {% assign found_option = true %}
+      {% assign option_index = forloop.index0 %}
+      {% assign downcased_option = swatch | downcase %}
+      {% if downcased_option contains 'color' or downcased_option contains 'colour' %}
+        {% assign is_color = true %}
+
+        <style>
+          .productForm-block--swatches .selector-wrapper[data-id="product-select-option-{{ option_index }}"] { display: none; }
+          .productForm-block--swatches label[for="product-select-option-{{ option_index }}"] { display: none; }
+          .productForm-block--swatches #product-select-option-{{ option_index }} { display: none; }
+          .productForm-block--swatches #product-select-option-{{ option_index }} + .custom-style-select-box { display: none !important; }
+        </style>
+        
+      {% endif %}
+    {% endif %}
+  {% endfor %}
+
+  {% if found_option %}
+    <div class="swatch clearfix" data-option-index="{{ option_index }}">
+      <div class="header">{{ swatch }}<span class="header__value"></span></div>
+      {% assign values = '' %}
+      {% for variant in product.variants %}
+        {% assign value = variant.options[option_index] %}
+        {% unless values contains value %}
+          {% assign values = values | join: ',' %}
+          {% assign values = values | append: ',' | append: value %} 
+          {% assign values = values | split: ',' %}
+          <div data-value="{{ value | escape }}" class="swatch-element {% if is_color %}color {% endif %}{{ value | handle }} {% if variant.available %}available{% else %}soldout{% endif %}">
+            {% if is_color %}
+            <label title="{{ value | escape }}">
+              <input id="product_id-{{ product.id }}-swatch-{{ option_index }}-{{ value | handle }}" type="radio" name="product_id-{{ product.id }}-option-{{ option_index }}" value="{{ value | escape }}"{% if forloop.first %} checked{% endif %} />
+              <span style="background-color: {{ value | split: ' ' | last | handle }}; background-image: url({{ value | handle | append: '.' | append: file_extension | asset_url }})"></span>
+            </label>
+            {% else %}
+              <input id="product_id-{{ product.id }}-swatch-{{ option_index }}-{{ value | handle }}" type="radio" name="product_id-{{ product.id }}-option-{{ option_index }}" value="{{ value | escape }}"{% if forloop.first %} checked{% endif %} />
+              <label for="swatch-{{ option_index }}-{{ value | handle }}" title="{{ value | escape }}">
+                {{ value }}
+              </label>
+            {% endif %}
+            <a href="{{ variant.url }}" class="swatch-link">{{ value | handle }}</a>
+          </div>
+        {% endunless %}
+      {% endfor %}
+    </div>
+
+  {% endif %}
+
+{% endif %}

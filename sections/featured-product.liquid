@@ -1,0 +1,265 @@
+{% comment %} Settings {% endcomment %}
+{% assign product = all_products[section.settings.product] %}
+{% assign show_reviews = settings.show_reviews %}
+{% assign color_swatches = section.settings.color_swatches %}
+{% assign image_position = section.settings.image_position %}
+{% assign image_size = section.settings.image_size %}
+{% assign arrows = section.settings.product_slideshow_arrows %}
+{% assign dots = section.settings.product_slideshow_dots %}
+{% if image_position == '1' %}
+<style>.shopify-payment-button {margin-left: auto !important; margin-right: auto !important;}</style>
+{% endif %}
+{% assign on_sale = false %}
+
+{% if product.compare_at_price > product.price %}
+  {% assign on_sale = true %}
+  {% assign on_sale_class = ' is-sale' %}
+{% endif %}
+
+{% if product == blank %}
+    {% assign onboarding_product = true %}
+{% endif %}
+
+{% comment %} Set the layout for the variant images {% endcomment %}
+{% for image in product.images %}
+{% if forloop.length == 2 %}
+    {% assign thumbnail_width = 'product-image--100' %}
+{% elsif forloop.length == 3 %}
+    {% assign thumbnail_width = 'product-image--50' %}
+{% elsif forloop.length == 4 %}
+    {% assign thumbnail_width = 'product-image--33' %}
+  {% else %}
+    {% assign thumbnail_width = 'product-image--25' %}
+{% endif %}
+  {% assign length = forloop.length %}
+{% endfor %}
+
+<section data-section-type="featured-product" data-section-id="{{ section.id }}" class="product container-wrap js-product-template clearfix row row-lg featured-product--{{section.id}} js-product-template--{{section.id}} featured-product {% if onboarding_product %}onboarding-product{% endif %}" data-show_reviews="{{ show_reviews }}">
+  {% unless onboarding_product == true %}
+  <span id="product-json" hidden>{{ product | json }}</span>
+  {% endunless %}
+    <div class="container">
+      <div class="row row-lg">
+        <div class="product-layout-{{ image_position }}--images product-layout--{{ image_size }} xxl_s12 xl_s12 lg_s12 s1">
+          {% comment %} Set the layout for the variant images {% endcomment %}
+          {% for image in product.images %}
+            {% if forloop.length <= 2 %}
+                {% assign thumbnail_width = 'product-image--100' %}
+            {% elsif forloop.length == 3 %}
+              {% assign thumbnail_width = 'product-image--50' %}
+            {% elsif forloop.length == 4 %}
+              {% assign thumbnail_width = 'product-image--33' %}
+            {% else %}
+              {% assign thumbnail_width = 'product-image--25' %}
+            {% endif %}
+            {% assign length = forloop.length %}
+          {% endfor %}
+
+          <div class="productImgSlider js-productImgSlider" data-gallery="{{ section.settings.image_gallery }}" data-arrows="{{ arrows }}" id="productImgSlider--{{ section.id }}">
+            {% unless onboarding_product == true %}
+              {% for image in product.images %}
+                  <div class="js-slide {{ thumbnail_width }} product-image product-image--fit {% if forloop.length == 1 %}product-image--single{% endif %} lazyload fade-in" data-image="{{ image | product_img_url: 'master'}}" data-id="{{ image.id }}" data-bgset="{% include 'bgset', image: image %}" data-sizes="auto" data-parent-fit="contain" data-aspect-ratio="{{ image.aspect_ratio }}">
+                    <a href="{{ product.url }}">
+                      <noscript>
+                        <img src="{{ image | img_url: '2048x' }}" alt="{{ image.alt | escape }}">
+                      </noscript>
+                    </a>
+                  </div>
+              {% endfor %}
+            {% else %}
+              {{ 'product-5' | placeholder_svg_tag: 'placeholder-svg' }}
+            {% endunless %}
+          </div>
+
+          {% if product.images.size > 1 %}
+          <div class="productImgSlider-nav js-productImgSlider-nav">
+            {% for image in product.images %}
+              {% assign image_widths = '295,394,590,700,800,1000,1200,1500,1800,2000,2400' %}
+              {% include 'theme-rias' %}
+                <div class="js-slide {{ thumbnail_width }} product-image-thumb">
+                  <a href="{{ product.url }}">
+                    <img 
+                       class="lazyload fade-in product-image-thumb-img"
+                       data-src="{{ image_url_pattern }}"
+                       data-widths= "[{{ image_widths }}]"
+                       data-aspectratio="{{image.aspect_ratio }}"
+                       data-sizes="auto"
+                       alt="{{ image.alt | escape }}"
+                       itemprop="image"
+                       >
+                     <noscript>
+                      <img src="{{ image | img_url: '1024x' }}" alt="{{ image.alt | escape }}">
+                    </noscript>
+                  </a>
+                </div>
+            {% endfor %}
+          </div>
+          {% endif %}
+        </div>
+        <!-- end product-images -->
+
+        <div class="product-info js-product-info product-layout-{{ image_position }}--info xxl_s12 xl_s12 lg_s12 s1">
+          <div class="product-title__wrapper">
+            {% unless onboarding_product == true %}
+            <h1 itemprop="name" class="product-title size--large">
+              <a href="{{ product.url }}">{{ product.title }}</a>
+            </h1>
+            {% else %}
+            <h1 itemprop="name" class="product-title size--large">
+              {{ 'onboarding.product_title' | t }}
+            </h1>
+            {% endunless %}
+
+            {% if show_reviews %}
+              <span class="shopify-product-reviews-badge" data-id="{{ product.id }}"></span>
+            {% endif %}
+          </div>
+
+          <div class="product-form">
+          {% unless onboarding_product == true %}
+            {% form 'product', product, class:'productForm', data-color_swatches: color_swatches %}
+              <div class="productForm-block productForm-block--options-inline {% if color_swatches == true %}productForm-block--swatches is-loading{% endif %}">
+                <select id="product-select--{{ section.id }}" name="id">
+                {% for variant in product.variants %}
+                  <option{% if variant == product.selected_or_first_available_variant %} selected{% endif %} value="{{ variant.id }}" data-sku="{{variant.sku}}">
+                  {{ variant.title }} - {{ variant.price | money | strip_html }}
+                </option>
+                {% endfor %}
+                </select>
+
+                {% if product.available and product.variants.size > 1 and color_swatches == true %}
+                 {% include 'swatch' with 'Color' %}
+                {% endif %}
+              </div>
+
+              <div class="productForm-block">
+                <div itemprop="offers" itemscope itemtype="http://schema.org/Offer">
+                  <meta itemprop="priceCurrency" content="{{ shop.currency }}">
+                  <link itemprop="availability" href="http://schema.org/{% if product.available %}InStock{% else %}OutOfStock{% endif %}">
+                  
+                  {% include 'product-price' %}
+
+                  {% if section.settings.show_quantity %}
+                    <div class="productForm-select">
+                      <label for="quantity">{{ 'products.form.qty' | t }}</label>
+                      <select name="quantity" id="quantity">
+                        {% for i in (1..9) %}
+                          <option value="{{ i }}">{{ i }}</option>
+                        {% endfor %}
+                      </select>
+                      <span class="selectArrow"></span>
+                    </div>
+                  {% endif %}
+                  <div>
+                    <button class="productForm-submit js-productForm-submit {% if section.settings.enable_payment_button %}add-to-cart-btn-style{% endif %}" type="submit" name="checkout" data-handle="{{product.handle}}">{{ 'products.form.submit' | t }}</button>
+                  </div>
+                  {% if section.settings.enable_payment_button %}
+                    {{ form | payment_button }}
+                  {% endif %}
+                </div>
+              </div>
+            {% endform %}
+          {% else %}
+            {% include 'pseudoform' %}
+          {% endunless %}
+
+          {% if settings.share_on_facebook or settings.share_on_twitter or settings.share_on_googleplus or settings.share_on_pinterest %}
+            <div class="product-share">
+              <span class="socialBar p">{% include 'site-shareLinks' %}</span>
+            </div>
+          {% endif %}
+            <span class="divider--wide"></span>
+              {% unless onboarding_product == true %}
+                <div class="size--large">{{ product.description }}</div>
+              {% else %}
+                <div class="size--large">{{ 'onboarding.product_description' | t }}</div>
+              {% endunless %}
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+{% schema %}
+{
+  "name": "Featured product",
+  "settings": [
+    {
+      "type": "product",
+      "id": "product",
+      "label": "Product"
+    },
+    {
+      "type": "select",
+      "id": "image_position",
+      "label": "Image position",
+      "options": [{
+          "value": "1",
+          "label": "Top"
+        },
+        {
+          "value": "4",
+          "label": "Left"
+        }
+      ],
+      "default": "4"
+    },
+    {
+      "type": "select",
+      "id": "image_size",
+      "label": "Image size",
+      "options": [
+        {
+          "value": "small",
+          "label": "Small"
+        },
+        {
+          "value": "medium",
+          "label": "Medium"
+        },
+        {
+          "value": "large",
+          "label": "Large"
+        }
+      ],
+      "default": "large"
+    },
+    {
+      "type": "checkbox",
+      "id": "product_slideshow_arrows",
+      "label": "Show slide navigation arrows",
+      "default": false
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_payment_button",
+      "label": "Show dynamic checkout button",
+      "info": "Lets customers check out directly using a familiar payment method. [Learn more](https://help.shopify.com/manual/using-themes/change-the-layout/dynamic-checkout)",
+      "default": true
+    },
+    { 
+      "type": "checkbox",
+      "id": "color_swatches",
+      "label": "Enable color swatches",
+      "default": true
+    },
+    { 
+      "type": "checkbox",
+      "id": "show_quantity",
+      "label": "Show quantity ticker",
+      "default": true
+    },
+    {
+      "type": "header",
+      "content": "Reviews",
+      "info": "You need to install Shopify's free [Product Reviews app](https://apps.shopify.com/product-reviews) before enabling this option."
+    }
+  ],
+  "presets": [
+    {
+    "name": "Featured product",
+    "category": "product"
+    }
+  ]
+}
+{% endschema %}

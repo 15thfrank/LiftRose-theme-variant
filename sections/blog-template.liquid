@@ -1,0 +1,213 @@
+{% comment %} Settings {% endcomment %}
+{% assign showBlogName = section.settings.show_blog_name %}
+{% assign showRSS = section.settings.show_rss %}
+{% assign showComments = section.settings.show_comments %}
+{% assign showFeatured = section.settings.show_featured_post %}
+{% assign articleColumns = section.settings.article_columns | plus: 0 %}
+{% assign articleRows = section.settings.article_rows %}
+{% assign articleLimit = articleColumns | times: articleRows %}
+{% assign columnsSize = articleColumns | replace: '1', '' %}
+{% assign accent_line = section.settings.accent_line %}
+{% assign accent_line_color = section.settings.accent_line_color %}
+
+{%- if accent_line_color != blank -%}
+<style>
+  .article .accent-line--straight { background-color: {{ accent_line_color }}; }
+  .article .accent-line--curved svg path { fill: {{ accent_line_color }}; }
+</style>
+{%- endif -%}
+
+<div id="blog-template" data-section-id="{{ section.id }}" data-section-type="blog-template" class="blogModule container-wrap" data-featured="{{ showFeatured }}">
+  {% if showBlogName %}
+  <section class="page-title container-wrap">
+    <div class="container">
+      <div class="row row-lg inline u-center">
+        <h1 class="blog-title">{{ blog.title }}
+          {% if showRSS %}
+            <div class="blog-rss">
+              <a class="icon-rss" href="{{blog.title}}.atom" target="_blank"><span>{{ 'blog.blog_list_view.follow' | t }}</span></a>
+            </div>
+          {% endif %}
+        </h1>
+        {% if current_tags %}
+          <h4 class="tag-label">{{ 'blog.blog_list_view.posts_tagged' | t }}: {{ current_tags.first }}</h4>
+        {% endif %}
+      </div>
+    </div>
+  </section>
+  {% endif %}
+
+  <div class="container-wrap blog-listing">
+    {% paginate blog.articles by articleLimit %}
+      <div id="MainContent">
+        {% if showFeatured %}
+          <div class="blogModule-posts row row-lg">
+            {% assign article = blog.articles[0] %}
+            {% capture article_meta %}
+              <p class="details">
+                {% if section.settings.author %}
+                  {{ 'blog.article.by_author' | t: author: article.author }} &bull; 
+                {% endif %}
+                <time pubdate datetime="{{ article.published_at | date: '%Y-%m-%d' }}">{{ article.published_at | date: '%B %d, %Y' }}</time>
+                {% if article.comments_count > 0 and showComments %}
+                  &nbsp;&bull;&nbsp;<span class="comment-count"><em>{{ 'blog.blog_list_view.comment_count' | t: count: article.comments_count }}</em></span>
+                {% endif %}
+              </p>
+            {% endcapture %}
+            
+            <div class="article article--featured {% if article.image == blank %}article--no-image{% else %}article--has-image{% endif %} is-loading">
+              {% unless article.image == blank %}
+                <div class="article-image-container">
+                  <div class="article-image lazyload fade-in" data-bgset="{% include 'bgset', image: article.image %}" data-sizes="auto" data-parent-fit="cover">
+                    <a href="{{ article.url }}" title="{{ article.title }}"></a>
+                  </div>
+                  <noscript>
+                    <div class="article-image no-js-image" style="background-image:url('{{ article.image | img_url: '1024x' }}'); background-size: cover; background-position: center center; background-repeat: no-repeat;" title="{{article.title}}">
+                      <a href="{{ article.url }}" title="{{ article.title }}"></a>
+                    </div>
+                  </noscript>
+                  {{ article_meta }}
+                </div>
+              {% endunless %}
+
+              <div class="article-content">
+                {% if article.tags.size > 0 and section.settings.tags %}
+                  <p class="tags">
+                    {% for tag in article.tags %} 
+                    <a href="{{ blog.url }}/tagged/{{ tag | handle }}">{{ tag }}</a>
+                    {% endfor %}
+                  </p>
+                {% endif %}
+
+                <h2 class="title js-title">
+                  <a href="{{ article.url }}">{{ article.title }}</a>
+                </h2>
+
+                <div class="article__excerpt js-article__excerpt">
+                  <p>{{article.excerpt_or_content | strip_html | strip }}</p>
+                </div>
+
+                {% if article.image == blank %}
+                  {{ article_meta }}
+                {% else %}
+                  {% include 'accent-line' %}
+                {% endif %}
+              </div>
+            </div>
+          </div>
+        {% endif %}
+        <!-- end article-featured -->
+
+        <div class="blogModule-posts row row-lg EndlessClick">
+          {% for article in blog.articles %}
+            {% unless showFeatured and paginate.current_page == 1 and forloop.index == 1 %}
+              {% include 'blog-post' %}
+            {% endunless %}
+          {% endfor %}
+
+          {% if paginate.next %}
+            <div class="pagination u-center">
+              <a href="{{ paginate.next.url }}" class="loadMore button">{{ 'collections.pagination.load_more' | t }}</a>
+              <div class="load-more-icon"></div>
+            </div>
+          {% elsif paginate.next == blank and showFeatured %}
+            <div class="pagination u-center">
+              <a href="{{ paginate.next.url }}" class="loadMore loadMore--fake button">{{ 'collections.pagination.load_more' | t }}</a>
+              <div class="load-more-icon"></div>
+            </div>
+          {% endif %}
+        </div>
+      </div>
+    {% endpaginate %}
+        
+    </div>
+    {% if blog.articles_count == 0 %}
+    <div class="collection-error centered">
+      <div class="no-products h4">{{ 'blog.blog_list_view.no_article' | t }}</div>
+    </div>
+    {% endif %}
+  </div>
+</div>
+
+{% schema %}
+  {
+    "name": "Blog pages",
+    "settings": [
+      {
+        "type": "header",
+        "content": "Settings"
+      },
+      {
+        "type": "checkbox",
+        "id": "show_blog_name",
+        "label": "Show blog name",
+        "default": false
+      }, 
+      {
+        "type": "checkbox",
+        "id": "show_rss",
+        "label": "Show RSS follow links",
+        "default": false
+      },
+      {
+        "type": "checkbox",
+        "id": "show_featured_post",
+        "label": "Show featured post",
+        "default": true
+      }, 
+      {
+        "type": "checkbox",
+        "id": "tags",
+        "label": "Show tags",
+        "default": true
+      },
+      {
+        "type": "checkbox",
+        "id": "author",
+        "label": "Show author",
+        "default": true
+      }, 
+      {
+        "type": "checkbox",
+        "id": "show_comments",
+        "label": "Show comment count",
+        "default": true
+      },
+      {
+        "type": "range",
+        "id": "article_rows",
+        "label": "Posts rows",
+        "default": 4,
+        "min": 1,
+        "max": 4,
+        "step": 1
+      },
+      {
+        "type": "range",
+        "id": "article_columns",
+        "label": "Posts per row",
+        "default":4,
+        "min":1,
+        "max":5,
+        "step":1
+      },
+      {
+        "type": "select",
+        "id": "accent_line",
+        "label": "Accent line",
+        "default": "curved",
+        "options": [
+          { "label": "Curved", "value": "curved" },
+          { "label": "Straight", "value": "straight" },
+          { "label": "None", "value": "none" }
+        ]
+      },
+      {
+        "type": "color",
+        "id": "accent_line_color",
+        "label": "Color",
+        "default": "#333"
+      }
+    ]
+  }
+{% endschema %}

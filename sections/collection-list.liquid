@@ -1,0 +1,200 @@
+{% comment %} Settings {% endcomment %}
+{% assign collection1 = collections[section.settings.collection1] | default: false %}
+{% assign title = section.settings.title %}
+{% assign subtitle = section.settings.subtitle %}
+
+{% comment %} Layout {% endcomment %}
+{% assign collectionsColumns = section.blocks.size %}
+{% assign columnsSize = collectionsColumns | replace: '1', '' %}
+{% assign layoutClass = collectionsColumns | append: '-blocks' %}
+{% assign blocksHeight = section.settings.blocks_height %}
+
+{% comment %} Colors {% endcomment %}
+{% assign text_color = section.settings.text_color %}
+{% assign overlay_color = section.settings.overlay_color %}
+{% assign overlay_opacity = section.settings.overlay_opacity | times: 0.01 | round: 2 %}
+
+{% comment %} Typography {% endcomment %}
+{% assign coll_text_size = 'normal' %}
+
+{% if columnsSize == '4' %}
+  {% assign coll_text_size = 'small' %}
+{% endif %}
+
+<style>
+  #collection-module-{{ section.id }} .collectionBlock-info h2, 
+  #collection-module-{{ section.id }} .collectionBlock-info h3, 
+  #collection-module-{{ section.id }} .collectionBlock-info h4,
+  #collection-module-{{ section.id }} .collectionBlock__vertical-description { color: {{ text_color }}; }
+  #collection-module-{{ section.id }} .collectionBlock .collectionBlock-image:after { background-color: {{ overlay_color }}; }
+  #collection-module-{{ section.id }} .collectionBlock .collectionBlock-image:after { opacity: {{ overlay_opacity }}; }
+</style>
+
+{% comment %} Section {% endcomment %}
+<section class="collectionList container-wrap js-collection-grid" id="collection-module-{{ section.id }}" data-section-type="collection-grid" data-section-id="{{ section.id }}">
+  {% unless title == blank and subtitle == blank %}
+    <div class="collectionList-header row row-sm">
+      {% if title != blank %}
+          <div class="block s1">
+              <h1>{{ title }}</h1>
+          </div>
+      {% endif %}
+
+      {% if subtitle != blank %}
+          <div class="block s1">
+              <p>{{ subtitle }}</p>
+          </div>
+      {% endif %}
+    </div>
+  {% endunless %}
+
+  <div class="collectionList-row row--mosaic row--{{ layoutClass }} row--{{ blocksHeight }}">
+    {% comment %} Collection Block, contains .js-quickView {% endcomment %}
+
+      {% for block in section.blocks  %}
+        {% assign collection = collections[block.settings.collection] %}
+        {% assign button_text = block.settings.button_text %}
+        {% assign vertical_description = block.settings.vertical_description %}
+        {% assign image = block.settings.image %}
+        {% if image == blank %}
+          {% assign image = collection.image %}
+        {% endif %}
+        {% include 'collectionList-block' %}
+      {% endfor %}
+  </div>
+</section>
+
+{% comment %} Schema {% endcomment %}
+{% schema %}
+{
+  "name": "Collections list",
+  "max_blocks": 5,
+  "settings": [
+    {
+      "type": "header",
+      "content": "Content"
+    },
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Heading"
+    },
+    {
+      "type": "text",
+      "id": "subtitle",
+      "label": "Text"
+    },
+    {
+      "type": "select",
+      "id": "coll_text_position",
+      "label": "Text position",
+      "default": "center",
+      "options": [
+        { "label": "Top left", "value": "top_left" },
+        { "label": "Top right", "value": "top_right" },
+        { "label": "Center", "value": "center" },
+        { "label": "Bottom left", "value": "bottom_left" },
+        { "label": "Bottom right", "value": "bottom_right" }
+      ]
+    },
+    {
+      "type": "checkbox",
+      "id": "show_description",
+      "label": "Show descriptions",
+      "default": true
+    },
+    {
+      "type": "header",
+      "content": "Blocks layout"
+    },
+    {
+      "type": "select",
+      "id": "blocks_height",
+      "label": "Height",
+      "default": "default-height",
+      "options": [
+        { "label": "Full height", "value": "full-height" },
+        { "label": "3/4 height", "value": "default-height" }
+      ]
+    },
+    {
+      "type": "header",
+      "content": "Colors"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "overlay_color",
+      "label": "Overlay",
+      "default": "#222222"
+    },
+    {
+      "type": "range",
+      "id": "overlay_opacity",
+      "label": "Overlay",
+      "step": 1,
+      "max": 100,
+      "min": 0,
+      "unit": "%",
+      "default": 30
+    }
+  ],
+  "blocks": [
+    {
+      "type": "collection",
+      "name": "Collection",
+      "settings": [
+        {
+          "type": "collection",
+          "id": "collection",
+          "label": "Collection"
+        },
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Replacement image"
+        },
+        {
+          "type": "text",
+          "id": "vertical_description",
+          "label": "Vertical description"
+        },
+        {
+          "type": "text",
+          "id": "button_text",
+          "label": "Button label",
+          "default":"View products"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "category": "Collection",
+      "name": "Collections list",
+      "blocks": [
+        {
+          "type": "collection"
+        },
+        {
+          "type": "collection"
+        },
+        {
+          "type": "collection"
+        },
+        {
+          "type": "collection"
+        },
+        {
+          "type": "collection"
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,61 @@
+{% comment %} Settings {% endcomment %}
+{% assign button_text = section.settings.button_text %}
+
+{% comment %} Layout {% endcomment %}
+{% assign collectionsColumns = section.settings.collections_columns | plus: 0 %}
+{% assign columnsSize = collectionsColumns | replace: '1', '' %}
+{% assign collectionBlock--size = 'block s1 lg_s1' | append: columnsSize %}
+
+{% comment %} Colors {% endcomment %}
+{% assign text_color = section.settings.text_color %}
+{% assign overlay_color = section.settings.overlay_color %}
+{% assign overlay_opacity = section.settings.overlay_opacity | times: 0.01 | round: 2 %}
+
+{% comment %} Typography {% endcomment %}
+{% assign coll_text_size = 'normal' %}
+
+{% if columnsSize == '4' %}
+  {% assign coll_text_size = 'small' %}
+{% endif %}
+
+<style>
+  #collection-module-{{ section.id }} .collectionBlock-info h2, 
+  #collection-module-{{ section.id }} .collectionBlock-info h3, 
+  #collection-module-{{ section.id }} .collectionBlock-info h4 { color: {{ text_color }}; }
+  #collection-module-{{ section.id }} .collectionBlock .collectionBlock-image:after { background-color: {{ overlay_color }}; }
+  #collection-module-{{ section.id }} .collectionBlock .collectionBlock-image:after { opacity: {{ overlay_opacity }}; }
+</style>
+
+{% comment %} Section {% endcomment %}
+
+{% paginate collections by 12 %}
+<section class="collectionList container-wrap js-collection-grid" id="collection-module-{{ section.id }}" data-section-type="collection-grid">
+  <div class="collectionList-header row row-sm">
+      <div class="block s1">
+          <h1>{{ 'collections.listing_page.title' | t }}</h1>
+      </div>
+  </div>
+  
+  <div id="MainContent">
+    <div class="collectionList-row row EndlessClick">
+      {% comment %} Collection Block, contains .js-quickView {% endcomment %}
+
+        {% for collection in collections %}
+          {% assign image = collection.image %}
+          {% include 'collectionList-block' with 'three-per-row' %}
+        {% endfor %}
+     
+      {% comment %} Spacers for inline-block based collectionList {% endcomment %}
+      <div class="gridSpacer item block s1 sm_s12 lg_s14"></div>
+      <div class="gridSpacer item block s1 sm_s12 lg_s14"></div>
+
+      {% if paginate.next %}
+        <div class="pagination u-center">
+          <a href="{{ paginate.next.url }}" class="loadMore button">{{ 'collections.pagination.load_more' | t }}</a>
+          <div class="load-more-icon"></div>
+        </div>
+      {% endif %}
+    </div>
+  </div>
+</section>
+{% endpaginate %}

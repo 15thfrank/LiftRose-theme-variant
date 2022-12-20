@@ -1,0 +1,116 @@
+<style type="text/css" style="display: none">
+  #contactFormWrapper p {border-bottom: 1px solid #dc1a22;padding-bottom: 10px;}
+  .successpar {font-weight: bold;text-align: center;}
+</style>
+
+<div data-section-id="{{ section.id }}" data-section-type="contact-template">
+  {% if banner %}
+    <section class="banner banner-about container-wrap">
+      <div class="container">
+        <div class="row row-lg">
+          <div class="banner-inner">
+            <img src="{{ banner | img_url: '2000x' }}" alt="{{ contact_heading | escape }}">
+          </div>
+        </div>
+      </div>
+    </section>
+  {% endif %}
+  <div class="container-wrap">
+    <div class="contact-form-container container">
+      <div class="row row-med">
+        <div class="contact-column contact-column-form">
+          {% if contact_heading != blank or contact_content != blank %}
+            <div class="contact-text">
+              {% if contact_heading != blank %}
+                <h1>{{ contact_heading }}</h1>
+              {% endif %}
+              
+              {% if contact_content != blank %}
+                <div class="content-wrapper text-content rte">
+                  {{ contact_content }}
+                </div>
+              {% endif %}
+            </div>
+          {% endif %}
+          
+          <div class="contact-form">
+            {% form 'contact' %}
+
+              {% if form.posted_successfully? %}
+                <div class="successForm feedback">
+                  <p class"successpar" >Thanks for registering your device! We stand ready to provide you with first class technical support if ever needed!</p>
+                </div>
+              {% else %}
+                {% if form.errors %}
+                <div class="feedback error p">
+                  {{ form.errors | default_errors }}
+                </div>
+                {% endif %}
+                <div id="contactFormWrapper">
+                  <p>
+        <label for="contactFormFName">First Name</label>
+        <input type="text" id="contactFormFName" name="contact[fname]" required />
+    </p>
+    <p>
+        <label for="contactFormLName">Last Name</label>
+        <input type="text" id="contactFormLName" name="contact[lname]" required />
+    </p>
+    <p>
+        <label for="ContactFormStreetAddress">Street Address</label>
+        <input type="text" id="ContactFormStreetAddress" name="contact[StreetAddress]" />
+    </p>
+    <p>
+        <label for="ContactFormCity">City</label>
+        <input type="text" id="ContactFormCity" name="contact[City]" />
+    </p>
+    <p>
+        <label for="ContactFormZip">Zip</label>
+        <input type="text" id="ContactFormZip" name="contact[Zip]" />
+    </p>
+    <p>
+        <label for="ContactFormCountry">Country</label>
+        <input type="text" id="ContactFormCountry" name="contact[Country]" />
+    </p>
+    <p>
+        <label for="contactFormEmail">Email</label>
+        <input type="email" id="contactFormEmail" name="contact[email]" required />
+    </p>
+    <p>
+        <label for="contactFormPhone">Phone Number</label>
+        <input type="telephone" id="contactFormPhone" name="contact[phone]" />
+    </p>
+    <p>
+        <label for="contactFormSerial">Product Serial Number</label>
+        <input type="text" id="contactFormSerial" name="contact[serial]" required />
+    </p>
+    <p>
+        <label for="contactFormDate">Date of Purchase</label>
+        <input type="date" id="contactFormDate" size="10" name="contact[date]" value="" pattern="(0[1-9]|1[012])[- /.](0[1-9]|[12][0-9]|3[01])[- /.](19|20)\d\d" required />
+    </p>
+    <p>
+        <label for="ContactFormWhere">Where did you purchase the WAVE CPAP Cleaner?</label>
+        <select id="ContactFormWhere" name="contact[Where]" required >
+                    <option value="Phone" selected="selected">Phone</option>
+                    <option value="thebestcpapcleaner.com">thebestcpapcleaner.com</option>
+                    <option value="In Store">In Store</option>
+                    <option value="Amazon">Amazon</option>
+                    <option value="Other Online">Other Online</option>
+                    <option value="Gift">Gift</option>
+            </select>
+    </p>
+    <p>
+        <input type="hidden" name="customer[accepts_marketing]" value="" />
+        <input type="checkbox" name="customer[accepts_marketing]" checked="checked" /> Subscribe to stay updated with new products and offers!
+    </p>
+    <p>
+        <input type="submit" id="contactFormSubmit" class="button" value="{{ 'contact.form.submit_button' | t }}" />
+    </p>
+                </div><!-- contactWrapper -->
+              {% endif %}
+            {% endform %}
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

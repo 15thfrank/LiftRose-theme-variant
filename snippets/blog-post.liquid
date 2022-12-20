@@ -1,0 +1,38 @@
+{% assign lastElementClass = '' %}
+
+{% if showFeatured %}
+	{% assign lastRowItems = articleLimit | minus: articleColumns | plus: 1 %}
+	{% if forloop.index > lastRowItems %}
+		{% assign lastElementClass = 'visually-hidden' %}
+	{% endif %}
+{% endif %}
+
+{% capture article_excerpt %}
+	{{ article.excerpt_or_content | strip_html | strip | truncatewords: 50 }}
+{% endcapture %}
+
+<a href="{{ article.url }}" aria-label="{{ article.title }}" title="{{ article.title }}" class="blogModule-posts-post block s1 med_s12 lg_s1{{ columnsSize }} {% unless article.image %}blogModule-posts-post--no-image{% else %}blogModule-posts-post--has-image{% endunless %} {{ lastElementClass }} {% if settings.transition_grid_items %}will-animate{% endif %}" data-animation="fadeInUp">
+	<div class="carousel-slide-image lazyload fade-in"
+	{% if article.image %}
+	data-bgset="{% include 'bgset', image: article.image %}"
+	data-sizes="auto"
+	data-parent-fit="cover"
+	{% endif %}></div>
+	<noscript>
+		<div class="carousel-slide-image" style="background-image:url('{{ article.image | img_url: '2048x' }}'); background-size: cover; background-position: center center; background-repeat: no-repeat;"></div>
+	</noscript>
+
+	<div class="carousel-slide-info">
+		<p class="post-date">{{ article.published_at | date: '%B %d, %Y' }}</p>
+		<p class="h3">{{ article.title }}</p>
+		<p class="excerpt">{{ article_excerpt }}</p>
+
+	{%- if section.settings.tags -%}
+		<p class="post-tags">{{ article.tags | join: ', ' | downcase }}</p>
+	{%- endif -%}
+
+	{%- if section.settings.author -%}
+		<p class="post-author">{{ article.user.first_name }} {{ article.user.last_name }}</p>
+	{%- endif -%}
+	</div>
+</a>

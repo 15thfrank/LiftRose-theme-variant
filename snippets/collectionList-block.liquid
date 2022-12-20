@@ -1,0 +1,78 @@
+{% comment %} Load mosaic grid if 3 collections per row selected {% endcomment %}
+
+{% if collection == empty %}
+  <div class="collectionBlock js-collectionBlock collection--has-image {{ collectionBlock--size }}" {{ block.shopify_attributes }}>
+    {% unless image == blank %}
+      <div class="collectionBlock-image {% if settings.transition_collections_list %}collectionBlock-image--zoom{% endif %} lazyload fade-in"
+      data-sizes="auto"
+      data-parent-fit="cover"
+      data-bgset="{% include 'bgset', image: image %}">
+      </div>
+      <noscript>
+        <a aria-label="{{collection.title}}" href="{{ collection.url }}"
+        class="collectionBlock-image {% if settings.transition_collections_list %}collectionBlock-image--zoom{% endif %} no-js-image" style="background-image:url('{{ image | img_url: '1024x' }}'); background-size: cover; background-position: center center; background-repeat: no-repeat;">
+        </a>
+      </noscript>
+      
+    {% else %}
+      <div class="collectionBlock-image {% if settings.transition_collections_list %}collectionBlock-image--zoom{% endif %} svg-placeholder">
+        {% capture current %}{% cycle 'current': 1, 2, 3, 4, 5 %}{% endcapture %}
+        {{ 'collection-' | append: current | placeholder_svg_tag }}
+      </div>
+    {% endunless %}
+      
+    <div class="collectionBlock-info text-position--{{ section.settings.coll_text_position }}">
+      <div>
+        <h2 class="size--{{ coll_text_size }}">{{ 'onboarding.collection' | t }}</h2>
+        {% if section.settings.show_description and image == blank %}
+          <h4 class="size--{{ coll_text_size }}">{{ 'onboarding.collection_description' | t }}</h4>
+        {% endif %}
+
+        {% if button_text == blank %}
+          {% assign button_text = 'collections.listing_page.view_products' | t %}
+        {% endif %}
+        <span class="button">{{ button_text }}</span>
+        {%- if vertical_description != blank -%}
+          <div class="collectionBlock__vertical-description">
+            <p>{{ vertical_description }}</p>
+          </div>
+        {%- endif -%}
+      </div>
+    </div>
+  </div>
+{% else %}
+  {% if image == blank and collection.image == blank %}
+    {% assign image = collection.products.first.featured_image %}
+  {% endif %}
+  <div class="collectionBlock js-collectionBlock collection--has-image {{ collectionBlock--size }} is-loading" {{ block.shopify_attributes }}>
+    <a aria-label="{{ collection.title }}" href="{{ collection.url }}"
+      class="collectionBlock-image {% if settings.transition_collections_list %}collectionBlock-image--zoom{% endif %} lazyload fade-in"
+      data-sizes="auto"
+      data-parent-fit="cover"
+      data-bgset="{% include 'bgset', image: image %}"
+    >
+    </a>
+    <noscript>
+      <a aria-label="{{collection.title}}" href="{{ collection.url }}"
+      class="collectionBlock-image {% if settings.transition_collections_list %}collectionBlock-image--zoom{% endif %} no-js-image" style="background-image:url('{{ image | img_url: '1024x' }}'); background-size: cover; background-position: center center; background-repeat: no-repeat;">
+      </a>
+    </noscript>
+
+    <a class="collectionBlock-info text-position--{{ section.settings.coll_text_position }}" tabindex="-1" href="{{ product.url | within: collection }}">
+      <div>
+        <h2 class="size--{{ coll_text_size }}">{{ collection.title }}</h2>
+        {% if section.settings.show_description %}
+          <h4 class="size--{{ coll_text_size }}">{{ collection.description | strip_html }}</h4>
+        {% endif %}
+        {%- if button_text != blank -%}
+          <span class="button">{{ button_text }}</span>
+        {%- endif -%}
+        {%- if vertical_description != blank -%}
+          <div class="collectionBlock__vertical-description">
+            <p>{{ vertical_description }}</p>
+          </div>
+        {%- endif -%}
+      </div>
+    </a>
+  </div>
+{%- endif -%}

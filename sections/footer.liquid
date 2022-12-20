@@ -1,0 +1,219 @@
+<section class="container-wrap" data-section-type="footer" data-section-id="{{ section.id }}">
+  <footer class="site-footer">
+    <div class="container">
+
+      {% comment %} Footer top - logo, menus, social icons {% endcomment %}
+      <div class="footer-inner row row-lg inline u-center">
+        {%- if section.blocks.size > 0 -%}
+          <div class="block s1">
+            <div class="footer-blocks">
+
+              {%- for block in section.blocks -%}
+                {%- capture column -%}{%- cycle 'footer--left', 'footer--center', 'footer--right' -%}{%- endcapture -%}
+                {%- assign mobile_hide_block = block.settings.mobile_hide_block -%}
+
+                {%- case block.type -%}
+                {%- when 'logo' -%}
+                  <div class="footer__block footer__logo block  {{ column }} {% if mobile_hide_block %}med_hide{% endif %}" {{ block.shopify_attributes }}>
+                    {%- if block.settings.logo -%}
+                      <a href="/">
+                        {%- assign image = block.settings.logo -%}
+                        <img 
+                           src="{{ block.settings.logo | img_url: '360x' }}"
+                           width="{{ block.settings.logo_width }}"
+                           alt="{{ shop.name }}">
+                        <noscript>
+                          <img width="{{ block.settings.logo_width }}" src="{{ block.settings.logo | img_url: '360x' }}" title="{{ shop.name }}">
+                        </noscript>
+                      </a>
+                    {%- else -%}
+                      <div class="placeholder-wrapper--footer" style="width: {{ section.settings.logo_width | append: 'px' }};">
+                      {{ 'image' | placeholder_svg_tag }}
+                      </div>
+                    {%- endif -%}
+                  </div>
+
+                  {%- when 'menu' -%}
+                    <div class="footer__block footer__menus block  {{ column }} {% if mobile_hide_block %}med_hide{% endif %}" {{ block.shopify_attributes }}>
+                      {%- if block.settings.menu_primary != blank -%}
+                      <div class="footer__menu" >
+                        <ul>
+                          {%- assign menu_primary = block.settings.menu_primary -%}
+                          {%- for link in linklists[menu_primary].links -%}
+                            <li class="footer-link">
+                              <a href="{{ link.url }}">{{ link.title }}</a>
+                            </li>
+                          {%- endfor -%}
+                        </ul>
+                      </div>
+                      {%- endif -%}
+
+                      {%- if block.settings.menu_secondary != blank -%}
+                      <div class="footer__menu" >
+                        <ul>
+                          {%- assign menu_secondary = block.settings.menu_secondary -%}
+                          {%- for link in linklists[menu_secondary].links -%}
+                            <li class="footer-link">
+                              <a href="{{ link.url }}">{{ link.title }}</a>
+                            </li>
+                          {%- endfor -%}
+                        </ul>
+                      </div>
+                      {%- endif -%}
+                    </div>
+
+                  {%- when 'social' -%}
+                    <div class="footer__block footer__social block  {{ column }} {% if mobile_hide_block %}med_hide{% endif %}" {{ block.shopify_attributes }}>
+                      {%- include 'social-links' -%}
+                    </div>
+                {%- endcase -%}
+              {%- endfor -%}
+            </div>
+          </div>
+        {%- endif -%}
+        
+      </div>
+    </div>
+
+    {% comment %} Footer bottom - Text, copyright, payment icons {% endcomment %}
+    {%- assign footer_text = section.settings.text -%}
+    <div class="footer-bottom">
+      <div class="container">
+        <div class="row row-lg">
+          
+          {%- if footer_text != blank -%}
+            <div class="block s1 lg_s14">
+              <div class="footer__text">
+                {{ footer_text }}
+              </div>
+            </div>
+          {%- endif -%}
+
+          <div class="block s1 lg_s12 {% if footer_text == blank %}lg_p14{% endif %}">
+            <div class="footer__copyright u-center">
+              <p>&copy; WAVE CPAP Cleaner 2019. All Rights Reserved{% comment %} {{ 'general.footer.copyright_html' | t  }} {{ powered_by_link }} {% endcomment %}.</p>
+            </div>
+
+            {%- if section.settings.show_payment_icons -%}
+              <div class="footer__payment">
+                {%- include 'payment-icons' -%}
+              </div>
+            {%- endif -%}
+          </div>
+          
+          {%- if settings.show_multiple_currencies -%}
+            <div class="block s1 lg_s14 {% if footer_text == blank %}lg_p14{% endif %}">
+              <div class="footer__currency">
+                {%- include 'currency-picker' -%}
+              </div>
+            </div>
+          {%- endif -%}
+
+        </div>
+      </div>
+    </div>
+  </footer>
+</section>
+
+{% schema %}
+{
+  "name": "Footer",
+  "max_blocks": 3,
+  "settings": [
+    {
+      "type": "richtext",
+      "id": "text",
+      "label": "Text",
+      "default":"<p>Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut.</p>"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_payment_icons",
+      "label": "Show payment icons",
+      "default": true
+    }
+  ],
+  "blocks": [
+    {
+      "type": "logo",
+      "name": "Logo",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "logo",
+          "label": "Logo"
+        },
+        {
+          "type": "range",
+          "id": "logo_width",
+          "min": 60,
+          "max": 180,
+          "step": 10,
+          "unit": "px",
+          "label": "Logo width",
+          "default": 150
+        },
+        {
+          "type": "checkbox",
+          "id": "mobile_hide_block",
+          "label": "Hide block on mobile",
+          "default": false
+        }
+      ]
+    },
+    {
+      "type": "menu",
+      "name": "Menu",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "header",
+          "content": "Primary menu"
+        },
+        {
+          "type": "link_list",
+          "id": "menu_primary",
+          "default":"main-menu",
+          "label": "Choose Menu",
+          "info": "This menu won't show dropdown items"
+        },
+        {
+          "type": "header",
+          "content": "Secondary menu"
+        },
+        {
+          "type": "link_list",
+          "id": "menu_secondary",
+          "label": "Choose Menu",
+          "info": "This menu won't show dropdown items"
+        },
+        {
+          "type": "checkbox",
+          "id": "mobile_hide_block",
+          "label": "Hide block on mobile",
+          "default": true
+        }
+      ]
+    },
+    {
+      "type": "social",
+      "name": "Social icons",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "header",
+          "content": "Social media",
+          "info":"Edit your social settings and accounts in General settings"
+        },
+        {
+          "type": "checkbox",
+          "id": "mobile_hide_block",
+          "label": "Hide block on mobile",
+          "default": false
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

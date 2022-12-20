@@ -1,0 +1,31 @@
+{% assign id = section.id %}
+{% assign heading_size = section.settings.heading_size %}
+{% assign text_size = section.settings.text_size %}
+{% assign blocks_alignment = section.settings.blocks_alignment %}
+
+{% if section.blocks.size > 0 %}
+  <div data-section-id="{{ section.id }}" data-section-type="product-features">
+    <div class="product-features--container pad-sm">
+      <div class="container">
+        <div class="row row-lg">
+          {% for block in section.blocks %}
+            {% assign is_block_odd = false %}
+            {% assign block_parity = forloop.index | modulo: 2 %}
+            {% if block_parity == 0 %}
+              {% assign is_block_odd = true %}
+            {% endif %}
+            {% assign heading = block.settings.heading %}
+            {% assign description = block.settings.description %}
+            {% assign image = block.settings.image %}
+            {% assign image_link = block.settings.image_link %}
+            {% assign button_text = block.settings.button_text %}
+            {% assign button_link = block.settings.button_link %}
+
+            {% include 'product-features__item' %}
+
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+  </div>
+{% endif %}

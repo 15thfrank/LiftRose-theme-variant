@@ -1,0 +1,97 @@
+{% comment %} Settings {% endcomment %}
+{% assign show_newsletter = section.settings.show_newsletter %}
+{% assign title = section.settings.title %}
+{% assign content = section.settings.content %}
+{% assign color = section.settings.color %}
+{% assign background = section.settings.background %}
+
+{% comment %} Section {% endcomment %}
+{% if show_newsletter %}
+<style>
+    .section-newsletter { background-color: {{ background }}; color: {{ color }}; }
+    .section-newsletter h1 { color: {{ color }} !important; }
+    .section-newsletter input::-webkit-input-placeholder { color: {{ color }}; }
+    .section-newsletter input::-moz-placeholder { color: {{ color }}; }
+    .section-newsletter input:-ms-input-placeholder { color: {{ color }}; }
+    .section-newsletter input:-moz-placeholder { color: {{ color }}; }
+    .section-newsletter input,
+    .section-newsletter .signUp-mailIcon,
+    .section-newsletter button.signUp-submit { color: {{ color }} !important; }
+    .section-newsletter .signUp-form .inputGroup { border-color: {{ color }}; }
+</style>
+<section class="section-newsletter container-wrap" data-section-type="newsletter">
+    <div class="container signUp">
+        <div class="row row-lg">
+                <h1>{{ title }}</h1>
+            {% if content != blank %}
+                <p class="h4" class="signUp-body">{{ content }}</p>
+            {% endif %}
+            {% form 'customer' %}
+                <div class="js-signUp-form signUp-form">
+                    <input type="hidden" id="contact_tags" name="contact[tags]" value="newsletter"/>
+                    <div class="inputGroup mc-field-group">
+                        <label for="mce-EMAIL" class="accessible-label">{{ 'general.slide_out_navigation.search_label' | t }}</label>
+                        <input class="signUp-input required email" type="email" value="" name="contact[email]" id="mce-EMAIL" placeholder="{{ 'general.newsletter_signup.email_placeholder' | t }}">
+                        <input type="hidden" id="newsletter-first-name" name="contact[first_name]" value="Newsletter" />
+                        <input type="hidden" id="newsletter-last-name" name="contact[last_name]" value="Subscriber" />
+                        <span class="signUp-mailIcon icon-mail"></span>
+                        <button type="submit" class="signUp-submit icon-arrow-right" name="subscribe" id="mc-embedded-subscribe"></button>
+                    </div>
+                </div>
+                {% if form.posted_successfully? %}
+                    <div class="signUp-confirmation p">{{ 'general.newsletter_signup.success_message' | t }}</div>
+                {% elsif form.errors %}
+                    {{ form.errors | default_errors }}
+                {% endif %}
+            {% endform %}
+        </div>
+    </div>
+</section>
+{% endif %}
+
+{% comment %} Schema {% endcomment %}
+{% schema %}
+    {
+        "name": "Newsletter",
+        "settings": [ 
+            {
+                "type": "checkbox",
+                "id": "show_newsletter",
+                "label": "Show Newsletter",
+                "default": true
+            },
+            {
+                "type": "header",
+                "content": "Colors"
+            },
+            {
+                "type": "color",
+                "id": "color",
+                "label": "Text",
+                "default": "#222"
+            },
+            {
+                "type": "color",
+                "id": "background",
+                "label": "Background",
+                "default": "#fff"
+            },
+            {
+                "type": "header",
+                "content": "Content"
+            },
+            {
+                "type": "text",
+                "id": "title",
+                "label": "Heading",
+                "default": "Newsletter"
+            },
+            {
+                "type": "richtext",
+                "id": "content",
+                "label": "Subheading",
+                "default":"<p>Let's keep in touch</p>"
+            }
+        ]
+    }
+{% endschema %}

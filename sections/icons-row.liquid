@@ -1,0 +1,105 @@
+{% comment %}  
+Icons row
+{% endcomment %}
+
+{% assign background = section.settings.color_icons_bg %}
+{% assign color = section.settings.color_icons_text %}
+
+{% if section.blocks.size > 0 %}
+<div data-section-id="{{ section.id }}" data-section-type="icons-row">
+  <div class="icons-row--background pad-sm" style="color: {{ color }}; background-color: {{ background }};">
+    <div class="container">
+      <div class="row row-lg">
+        <div class="icons-row-wrapper">
+          {% for block in section.blocks %}
+            {% assign title = block.settings.title %}
+            {% assign content = block.settings.content %}
+            {% assign icon_words = block.settings.icon | split: ' ' %}
+            {%- capture icon -%}{%- for word in icon_words -%}{%- unless forloop.index == 1 -%}-{%- endunless -%}{{ word | lowercase | capitalize }}{%- endfor -%}{%- endcapture -%}
+
+            <div class="icons-row__item">
+              {% if icon != blank %}
+              <span class="icons-row__icon iconsmind-{{ icon }}"></span>
+              {% endif %}
+
+              {% if title != blank %}
+              <h3 class="icons-row__title">{{ title }}</h3>
+              {% endif %}
+
+              {% if content != blank %}
+              <p class="icons-row__content">{{ content }}</p>
+              {% endif %}
+            </div>
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endif %}
+
+{% schema %}
+{
+  "name": "Icons row",
+  "max_blocks": 6,
+  "class": "icons-row",
+  "settings": [
+    {
+      "type": "color",
+      "id": "color_icons_bg",
+      "label": "Background color",
+      "default": "#fafafa"
+    },
+    {
+      "type": "color",
+      "id": "color_icons_text",
+      "label": "Text color",
+      "default": "#333"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "text",
+      "name": "Item",
+      "settings": [
+        {
+          "type": "text",
+          "id": "icon",
+          "label": "Icon name",
+          "default": "Shop",
+          "info": "[Click here](https://iconsmind.com/view_icons/) to view the list of available icons. Example: Shop"
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Title",
+          "default": "Feature"
+        },
+        {
+          "type": "textarea",
+          "id": "content",
+          "label": "Content",
+          "default": "Modular is a powerful Shopify theme that will set you apart from the rest with Mosaic, Gallery, and Slideshow sections."
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Icons row",
+      "category": "Text",
+      "blocks": [
+        {
+          "type": "text"
+        },
+        {
+          "type": "text"
+        },
+        {
+          "type": "text"
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

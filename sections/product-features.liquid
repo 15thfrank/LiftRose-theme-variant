@@ -1,0 +1,125 @@
+{% comment %} Product features {% endcomment %}
+
+{% include 'product-features' %}
+
+{% schema %}
+{
+  "name": "Product features",
+  "max_blocks": 4,
+  "class": "product-features",
+  "settings": [
+    {
+      "type":"header",
+      "content":"Blocks Alignment"
+    },
+    {
+      "type":"select",
+      "id":"blocks_alignment",
+      "label":"Text alignment",
+      "options": [
+        {
+          "value": "center",
+          "label": "Center"
+        },
+        {
+          "value": "top",
+          "label": "Top"
+        }
+      ]
+    },
+    {
+      "type": "header",
+      "content": "Typography"
+    },
+    {
+      "type":"select",
+      "id":"heading_size",
+      "label":"Heading size",
+      "default": "normal",
+      "options": [
+        {
+          "value": "small",
+          "label": "Small"
+        },
+        {
+          "value": "normal",
+          "label": "Normal"
+        },
+        {
+          "value": "large",
+          "label": "Large"
+        }
+      ]
+    }
+  ],
+  "blocks": [
+    {
+      "name": "Product feature",
+      "type": "text",
+      "settings": [
+        {
+          "type":"header",
+          "content":"Text"
+        },
+        {
+          "type": "textarea",
+          "id": "heading",
+          "label": "Heading",
+          "default": "This is a heading for a Product feature block."
+        },
+        {
+          "type": "richtext",
+          "id": "description",
+          "label": "Description",
+          "default": "<p>Use this text to share information about the point put forth above. Describe a product, your brand, or what makes you special.</p>"
+        },
+        {
+          "type":"header",
+          "content":"Images"
+        },
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Image"
+        },
+        {
+          "type": "url",
+          "id": "image_link",
+          "label": "Image link"
+        },
+        {
+          "type":"header",
+          "content":"Button"
+        },
+        {
+          "type": "text",
+          "id": "button_text",
+          "label": "Button text"
+        },
+        {
+          "type": "url",
+          "id": "button_link",
+          "label": "Button link"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "category": "Text",
+      "name": "Product features",
+      "blocks": [
+        {
+          "type": "text"
+        },
+        {
+          "type": "text"
+        },
+        {
+          "type": "text"
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

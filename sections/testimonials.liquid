@@ -1,0 +1,167 @@
+{% comment %} Settings {% endcomment %}
+{%- assign heading = section.settings.title -%}
+{%- assign heading_position = section.settings.title_position -%}
+{%- assign blocks_text_align = section.settings.blocks_text_align -%}
+{%- assign hide_quotes = section.settings.hide_quotes -%}
+{%- assign accent_line = section.settings.accent_line -%}
+{%- assign accent_line_color = section.settings.accent_line_color -%}
+{%- assign columns = section.settings.columns -%}
+
+{%- if columns == 3 -%}
+  {%- assign block_size = 'one-third' -%}
+{%- elsif columns == 2 -%}
+  {%- assign block_size = 'one-half' -%}
+{%- else -%}
+  {%- assign block_size = 'full' -%}
+{%- endif -%}
+
+{%- if accent_line_color != blank -%}
+<style>
+  .testimonial .accent-line--straight { background-color: {{ accent_line_color }}; }
+  .testimonial .accent-line--curved svg path { fill: {{ accent_line_color }}; }
+</style>
+{%- endif -%}
+
+<section class="testimonials-section" data-section-id="{{ section.id }}" data-section-type="testimonials">
+  <div class="testimonials testimonials--{{ block_size }}">
+    {%- if heading -%}
+      <div class="page-title page-title--{{ heading_position }}">
+        <h1>{{ heading }}</h1>
+      </div>
+    {%- endif -%}
+    
+    {%- if section.blocks.size > 0 -%}
+      <div class="testimonials__blocks js-testimonials__blocks">
+        {%- for block in section.blocks -%}
+          {%- assign blockquote = block.settings.blockquote -%}
+          {%- assign author = block.settings.author -%}
+          {%- if author != blank or blockquote != blank -%}
+            <div class="testimonials__block testimonials__block--{{ block_size }} testimonial testimonial--{{ blocks_text_align }}" data-block="testimonial" {{ block.shopify_attributes }}>
+              {%- unless blockquote == blank -%}
+                <blockquote class="testimonial__blockquote">
+                  {%- unless hide_quotes -%}
+                    <span class="testimonial__blockquote-quotes">{% include 'icon-quotes' %}</span>
+                  {%- endunless -%}
+                  <p>{{ blockquote }}</p>
+                </blockquote>
+              {%- endunless -%}
+              
+              {%- if accent_line == 'curved' or accent_line == 'straight' or author != blank -%}
+                <div class="testimonial__bottom">
+                  {% include 'accent-line' %}
+
+                  {%- unless author == blank -%}  
+                    <p class="testimonial__author">{{ author }}</p> 
+                  {%- endunless -%}
+                </div>
+              {%- endif -%}
+            </div>
+          {%- endif -%}
+        {%- endfor -%}
+      </div>
+    {%- endif -%}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Testimonials",
+  "settings": [
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Heading",
+      "default": "Testimonials"
+    },
+    {
+      "type": "select",
+      "id": "title_position",
+      "label": "Heading position",
+      "default": "left",
+      "options": [
+        { "label": "Left", "value": "left" },
+        { "label": "Center", "value": "center" }
+      ]
+    },
+    {
+      "type": "select",
+      "id": "blocks_text_align",
+      "label": "Text alignment",
+      "default": "justify",
+      "options": [
+        { "label": "Justify", "value": "justify" },
+        { "label": "Center", "value": "center" }
+      ]
+    },
+    {
+      "type": "checkbox",
+      "id": "hide_quotes",
+      "label": "Hide quotes",
+      "default": false
+    },
+    {
+      "type": "range",
+      "id": "columns",
+      "label": "Columns",
+      "min": 1,
+      "max": 3,
+      "step": 1,
+      "default": 3
+    },
+    {
+      "type": "select",
+      "id": "accent_line",
+      "label": "Accent line",
+      "default": "curved",
+      "options": [
+        { "label": "Curved", "value": "curved" },
+        { "label": "Straight", "value": "straight" },
+        { "label": "None", "value": "none" }
+      ]
+    },
+    {
+      "type": "color",
+      "id": "accent_line_color",
+      "label": "Color",
+      "default": "#333333"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "testimonial",
+      "name": "Testimonial",
+      "settings": [
+        {
+          "type": "textarea",
+          "id": "blockquote",
+          "label": "Text",
+          "default": "Aenean lacinia bibendum nulla sed consectetur. Curabitur blandit tempus porttitor. Integer posuere erat a ante venenatis dapibus posuere velit aliquet."
+        },
+        {
+          "type": "text",
+          "id": "author",
+          "label": "Author",
+          "default": "John Doe"
+        } 
+      ]
+    } 
+  ],
+  "presets": [
+    {
+      "category": "Text",
+      "name": "Testimonials",
+      "blocks": [
+        {
+          "type": "testimonial"
+        },
+        {
+          "type": "testimonial"
+        },
+        {
+          "type": "testimonial"
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,878 @@
+<style type="text/css" style="display: none">
+  .side1, .side2 {width: 50%;float: left;overflow: hidden;border: 1px solid #dc1a22;padding: 25px;min-height: 220px;}
+  .sided1, .sided2 {display: inline-flex;width: 100%;}
+  .sided1 {padding-top: 35px;padding-bottom:35px;}
+  .row .row-sm, .row-sm {width: 90% !important}
+  .sided11 {width: 50%;}
+  .sided21 {width:25%;display: inline-block;}
+  .sided22 {width:70%;display: inline-block;}
+  @media only screen and (max-width: 830px) { 
+    .side1, .side2 {width: 100%;}
+    .sided1 {padding:15px;}
+  }
+  .sided2 {display:none;}
+  .btn {color: #ffffff !important;background-color: #dc1a22;border-color: #dc1a22;padding: 15px 40px;}
+  .btnn {color: #ffffff !important;background-color: #dc1a22;border-color: #dc1a22;padding: 8px 40px;}
+  span {font-size: 2em;color: #dc1a22;}
+</style>
+{%- if section.settings.show_page_title -%}
+<section class="page-title container-wrap">
+    <div class="container">
+        <div class="row row-lg inline u-center">
+            <h1>{{ page.title }}</h1>
+        </div>
+    </div>
+</section>
+{%- endif -%}
+
+<div class="container-wrap">
+    <div class="container text-content rte">
+        <div class="row row-sm">
+            {{ page.content }}
+        </div>
+        <div class="row row-sm">
+            <h2 style="text-align:center;padding-top: 15px;">WAVE CPAP Compatibility Tool</h2>
+            <p style="text-align: center;">Simply select your CPAP brand and model to automatically determine if it is compatible with the WAVE CPAP Cleaner.</p>
+            <div>
+                <!--<form onsubmit="return results();" method="post" action="">-->
+                <div id="contactFormWrapper" class="side1">
+                    <div class="sided1">
+                        <div class="sided11">
+                            <label>CPAP brand:</label>
+                            <select name="brand" class="custom-select" id="brand" onClick="getBrands()" style="border-bottom:1px solid #dc1a22;width: 95%;">
+                                        </select>
+                        </div>
+                        <div class="sided11">
+                            <label>Model:</label>
+                            <select class="custom-select" name="model" id="model" style="border-bottom:1px solid #dc1a22;width: 95%;">
+                                        </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="side2">
+                    <div class="Everest sided2">
+                        <div class="sided21">
+                            <img src="https://cdn.shopify.com/s/files/1/0082/8132/5665/files/Aeiomed-Everest3.jpg" alt "Aeiomed-Everest">
+                        </div>
+                        <div class="sided22">
+                            <p style="text-align: center;padding: 20px;">The Aeiomed Everest is <span>compatible!</span></p>
+                            <br/>
+                            <div class="" style="text-align: center;"><a href="/collections/all" class="btn" style="width: 70%;margin-top: 10px;">Buy Now</a></div>
+                        </div>
+                    </div>
+                    <div class="ICH sided2">
+                        <div class="sided21">
+                            <img src="https://cdn.shopify.com/s/files/1/0082/8132/5665/files/Apex-Medical-ICH.jpg" alt "Apex-Medical-ICH">
+                        </div>
+                        <div class="sided22">
+                            <p style="text-align: center;padding: 20px;">The Apex Medical ICH is <span>compatible!</span></p>
+                            <br/>
+                            <div class="" style="text-align: center;"><a href="/collections/all" class="btn" style="width: 70%;margin-top: 10px;">Buy Now</a></div>
+                        </div>
+                    </div>
+                    <div class="XT sided2">
+                        <div class="sided21">
+                            <img src="https://cdn.shopify.com/s/files/1/0082/8132/5665/files/Apex-Medical-XT.jpg" alt "Apex-Medical-XT">
+                        </div>
+                        <div class="sided22">
+                            <p style="text-align: center;padding: 20px;">The Apex Medical XT is <span>compatible!</span></p>
+                            <br/>
+                            <div class="" style="text-align: center;"><a href="/collections/all" class="btn" style="width: 70%;margin-top: 10px;">Buy Now</a></div>
+                        </div>
+                    </div>
+                    <div class="PureSom sided2">
+                        <div class="sided21">
+                            <img src="https://cdn.shopify.com/s/files/1/0082/8132/5665/files/Carefusion-pursom.jpg" alt "Carefusion-pursom">
+                        </div>
+                        <div class="sided22">
+                            <p style="text-align: center;padding: 20px;">The Carefusion PureSom is <span>compatible!</span></p>
+                            <br/>
+                            <div class="" style="text-align: center;"><a href="/collections/all" class="btn" style="width: 70%;margin-top: 10px;">Buy Now</a></div>
+                        </div>
+                    </div>
+                    <div class="IntelliPAP sided2">
+                        <div class="sided21">
+                            <img src="https://cdn.shopify.com/s/files/1/0082/8132/5665/files/Devilbiss-IntelliPAP.jpg" alt "Devilbiss-IntelliPAP">
+                        </div>
+                        <div class="sided22">
+                            <p style="text-align: center;padding: 20px;">The Devilbiss IntelliPAP is <span>compatible!</span></p>
+                            <br/>
+                            <div class="" style="text-align: center;"><a href="/collections/all" class="btn" style="width: 70%;margin-top: 10px;">Buy Now</a></div>
+                        </div>
+                    </div>
+                    <div class="ComfortPAP sided2">
+                        <div class="sided21">
+                            <img src="https://cdn.shopify.com/s/files/1/0082/8132/5665/files/EVO-ComfortPAP.jpg" alt "EVO-ComfortPAP">
+                        </div>
+                        <div class="sided22">
+                            <p style="text-align: center;padding: 20px;">The Evo ComfortPAP is <span>compatible!</span></p>
+                            <br/>
+                            <div class="" style="text-align: center;"><a href="/collections/all" class="btn" style="width: 70%;margin-top: 10px;">Buy Now</a></div>
+                        </div>
+                    </div>
+                    <div class="Icon_ sided2">
+                        <div class="sided21">
+                            <img src="https://cdn.shopify.com/s/files/1/0082/8132/5665/files/Fisher-Paykel-icon.jpg" alt "Fisher-Paykel-icon">
+                        </div>
+                        <div class="sided22">
+                            <p style="text-align: center;padding: 20px;">The Fisher & Paykel Icon is <span>compatible!</span></p>
+                            <br/>
+                            <div class="" style="text-align: center;"><a href="/collections/all" class="btn" style="width: 70%;margin-top: 10px;">Buy Now</a></div>
+                        </div>
+                    </div>
+                    <div class="SleepStyle_200_Series sided2">
+                        <div class="sided21">
+                            <img src="https://cdn.shopify.com/s/files/1/0082/8132/5665/files/Fisher-Paykel-SleepStyle-200.jpg" alt "Fisher-Paykel-SleepStyle-200">
+                        </div>
+                        <div class="sided22">
+                            <p style="text-align: center;padding: 20px;">The Fisher & Paykel SleepStyle 200 Series is <span>compatible!</span></p>
+                            <br/>
+                            <div class="" style="text-align: center;"><a href="/collections/all" class="btn" style="width: 70%;margin-top: 10px;">Buy Now</a></div>
+                        </div>
+                    </div>
+                    <div class="SleepStyle_600_Series sided2">
+                        <div class="sided21">
+                            <img src="https://cdn.shopify.com/s/files/1/0082/8132/5665/files/Fisher-Paykel-SleepStyle-600.jpg" alt "Fisher-Paykel-SleepStyle-600">
+                        </div>
+                        <div class="sided22">
+                            <p style="text-align: center;padding: 20px;">The Fisher & Paykel SleepStyle 600 Series is <span>compatible!</span></p>
+                            <br/>
+                            <div class="" style="text-align: center;"><a href="/collections/all" class="btn" style="width: 70%;margin-top: 10px;">Buy Now</a></div>
+                        </div>
+                    </div>
+                    <div class="DreamStation sided2">
+                        <div class="sided21">
+                            <img src="https://cdn.shopify.com/s/files/1/0082/8132/5665/files/dreamstation-cpap.jpg" alt "Philips-dreamstation-cpap ">
+                        </div>
+                        <div class="sided22">
+                            <p style="text-align: center;padding: 20px;">The Philips Respironics DreamStation is <span>compatible!</span></p>
+                            <br/>
+                            <div class="" style="text-align: center;"><a href="/collections/all" class="btn" style="width: 70%;margin-top: 10px;">Buy Now</a></div>
+                        </div>
+                    </div>
+                    <div class="DreamStation_Go sided2">
+                        <div class="sided21">
+                            <img src="https://cdn.shopify.com/s/files/1/0082/8132/5665/files/DreamStation_GoAuto_110x110_282b6842-a88f-44af-9744-e21aadc44c84.jpg" alt "Philips-DreamStation_Go">
+                        </div>
+                        <div class="sided22">
+                            <p style="text-align: center;padding: 20px;">The Philips Respironics DreamStation Go is <span>compatible!</span></p>
+                            <br/>
+                            <div class="" style="text-align: center;"><a href="/collections/all" class="btn" style="width: 70%;margin-top: 10px;">Buy Now</a></div>
+                        </div>
+                    </div>
+                    <div class="PR_System_One_REMstar_60_Series sided2">
+                        <div class="sided21">
+                            <img src="https://cdn.shopify.com/s/files/1/0082/8132/5665/files/Philips-Respironics-PR-System-One-REMstar-60.jpg" alt "Philips-Respironics-PR-System-One-REMstar-60">
+                        </div>
+                        <div class="sided22">
+                            <p style="text-align: center;padding: 20px;">The Philips Respironics PR System One REMstar 60 Series is <span>compatible!</span></p>
+                            <br/>
+                            <div class="" style="text-align: center;"><a href="/collections/all" class="btn" style="width: 70%;margin-top: 10px;">Buy Now</a></div>
+                        </div>
+                    </div>
+                    <div class="PR_System_One_REMstar sided2">
+                        <div class="sided21">
+                            <img src="https://cdn.shopify.com/s/files/1/0082/8132/5665/files/Philips-Respironics-REMstar.jpg" alt "Philips-Respironics-REMstar">
+                        </div>
+                        <div class="sided22">
+                            <p style="text-align: center;padding: 20px;">The Philips Respironics PR System One REMstar is <span>compatible!</span></p>
+                            <br/>
+                            <div class="" style="text-align: center;"><a href="/collections/all" class="btn" style="width: 70%;margin-top: 10px;">Buy Now</a></div>
+                        </div>
+                    </div>
+                    <div class="SleepEasy sided2">
+                        <div class="sided21">
+                            <img src="https://cdn.shopify.com/s/files/1/0082/8132/5665/files/Philips-Respironics-SleepEasy.jpg" alt "Philips-Respironics-SleepEasy">
+                        </div>
+                        <div class="sided22">
+                            <p style="text-align: center;padding: 20px;">The Philips Respironics SleepEasy is <span>compatible!</span></p>
+                            <br/>
+                            <div class="" style="text-align: center;"><a href="/collections/all" class="btn" style="width: 70%;margin-top: 10px;">Buy Now</a></div>
+                        </div>
+                    </div>
+                    <div class="SleepEasy_II sided2">
+                        <div class="sided21">
+                            <img src="https://cdn.shopify.com/s/files/1/0082/8132/5665/files/Philips-Respironics-SleepEasy2.jpg" alt "Philips-Respironics-SleepEasy2">
+                        </div>
+                        <div class="sided22">
+                            <p style="text-align: center;padding: 20px;">The Philips Respironics SleepEasy II is <span>compatible!</span></p>
+                            <br/>
+                            <div class="" style="text-align: center;"><a href="/collections/all" class="btn" style="width: 70%;margin-top: 10px;">Buy Now</a></div>
+                        </div>
+                    </div>
+                    <div class="M_Series_V_2 sided2">
+                        <div class="sided21">
+                            <img src="https://cdn.shopify.com/s/files/1/0082/8132/5665/files/Philips-Respironics-M-Series-V-2.jpg" alt "Philips-Respironics-M-Series-V-2">
+                        </div>
+                        <div class="sided22">
+                            <p style="text-align: center;padding: 20px;">The Philips Respironics M-Series V 2 is <span>compatible!</span></p>
+                            <br/>
+                            <div class="" style="text-align: center;"><a href="/collections/all" class="btn" style="width: 70%;margin-top: 10px;">Buy Now</a></div>
+                        </div>
+                    </div>
+                    <div class="M_Series_V_3 sided2">
+                        <div class="sided21">
+                            <img src="https://cdn.shopify.com/s/files/1/0082/8132/5665/files/Philips-Respironics-REMstar_1.jpg" alt "Philips-Respironics-M-Series-V-3">
+                        </div>
+                        <div class="sided22">
+                            <p style="text-align: center;padding: 20px;">The Philips Respironics M-Series V 3 is <span>compatible!</span></p>
+                            <br/>
+                            <div class="" style="text-align: center;"><a href="/collections/all" class="btn" style="width: 70%;margin-top: 10px;">Buy Now</a></div>
+                        </div>
+                    </div>
+                    <div class="Zzz_PAP sided2">
+                        <div class="sided21">
+                            <img src="https://cdn.shopify.com/s/files/1/0082/8132/5665/files/PMI-Probasic-zzzpapcpap.jpg" alt "PMI-Probasic-zzzpapcpap">
+                        </div>
+                        <div class="sided22">
+                            <p style="text-align: center;padding: 20px;">The PMI Probasic Zzz-PAP is <span>compatible!</span></p>
+                            <br/>
+                            <div class="" style="text-align: center;"><a href="/collections/all" class="btn" style="width: 70%;margin-top: 10px;">Buy Now</a></div>
+                        </div>
+                    </div>
+                    <div class="GoodKnight_420 sided2">
+                        <div class="sided21">
+                            <img src="https://cdn.shopify.com/s/files/1/0082/8132/5665/files/Puritan-Bennett-GoodKnight.jpg" alt "Puritan-Bennett-GoodKnight">
+                        </div>
+                        <div class="sided22">
+                            <p style="text-align: center;padding: 20px;">The Puritan Bennett GoodKnight 420 is <span>compatible!</span></p>
+                            <br/>
+                            <div class="" style="text-align: center;"><a href="/collections/all" class="btn" style="width: 70%;margin-top: 10px;">Buy Now</a></div>
+                        </div>
+                    </div>
+                    <div class="Sandman sided2">
+                        <div class="sided21">
+                            <img src="https://cdn.shopify.com/s/files/1/0082/8132/5665/files/Puritan-Bennett-Sandman.jpg" alt "Puritan-Bennett-Sandman">
+                        </div>
+                        <div class="sided22">
+                            <p style="text-align: center;padding: 20px;">The Puritan Bennett Sandman is <span>compatible!</span></p>
+                            <br/>
+                            <div class="" style="text-align: center;"><a href="/collections/all" class="btn" style="width: 70%;margin-top: 10px;">Buy Now</a></div>
+                        </div>
+                    </div>
+                    <div class="BM600 sided2">
+                        <div class="sided21">
+                            <img src="https://cdn.shopify.com/s/files/1/0082/8132/5665/files/RESmart-BPAP-Device.jpg" alt "3B-Medical_600">
+                        </div>
+                        <div class="sided22">
+                            <p style="text-align: center;padding: 20px;">The 3B Medical 600 is <span>compatible!</span></p>
+                            <br/>
+                            <div class="" style="text-align: center;"><a href="/collections/all" class="btn" style="width: 70%;margin-top: 10px;">Buy Now</a></div>
+                        </div>
+                    </div>
+                    <div class="BM700 sided2">
+                        <div class="sided21">
+                            <img src="https://cdn.shopify.com/s/files/1/0082/8132/5665/files/3B-Medical_700.jpg" alt "3B-Medical_700">
+                        </div>
+                        <div class="sided22">
+                            <p style="text-align: center;padding: 20px;">The 3B Medical 700 is <span>compatible!</span></p>
+                            <br/>
+                            <div class="" style="text-align: center;"><a href="/collections/all" class="btn" style="width: 70%;margin-top: 10px;">Buy Now</a></div>
+                        </div>
+                    </div>
+                    <div class="Luna sided2">
+                        <div class="sided21">
+                            <img src="https://cdn.shopify.com/s/files/1/0082/8132/5665/files/3B-Medical_Luna.png" alt "3B-Medical_Luna">
+                        </div>
+                        <div class="sided22">
+                            <p style="text-align: center;padding: 20px;">The 3B Medical Luna is <span>compatible!</span></p>
+                            <br/>
+                            <div class="" style="text-align: center;"><a href="/collections/all" class="btn" style="width: 70%;margin-top: 10px;">Buy Now</a></div>
+                        </div>
+                    </div>
+                    <div class="S8 sided2">
+                        <div class="sided21">
+                            <img src="https://cdn.shopify.com/s/files/1/0082/8132/5665/files/ResMed-S8.jpg" alt "ResMed-S8">
+                        </div>
+                        <div class="sided22">
+                            <p style="text-align: center;padding: 20px;">The ResMed S8 is <span>compatible!</span></p>
+                            <br/>
+                            <div class="" style="text-align: center;"><a href="/collections/all" class="btn" style="width: 70%;margin-top: 10px;">Buy Now</a></div>
+                        </div>
+                    </div>
+                    <div class="S9 sided2">
+                        <div class="sided21">
+                            <img src="https://cdn.shopify.com/s/files/1/0082/8132/5665/files/ResMed-S9.jpg" alt "ResMed-S9">
+                        </div>
+                        <div class="sided22">
+                            <p style="text-align: center;padding: 20px;">The ResMed S9 is <span>compatible!</span></p>
+                            <br/>
+                            <div class="" style="text-align: center;"><a href="/collections/all" class="btn" style="width: 70%;margin-top: 10px;">Buy Now</a></div>
+                        </div>
+                    </div>
+                    <div class="AirMini sided2">
+                        <div class="sided21">
+                            <img src="https://cdn.shopify.com/s/files/1/0082/8132/5665/files/ResMed_AirminiMain_110x110_da6d4656-5e4f-4889-a781-c11f07ad839c.jpg" alt "ResMed_Airmini">
+                        </div>
+                        <div class="sided22">
+                            <p style="text-align: center;padding: 20px;">The ResMed AirMini is <span>compatible!</span></p>
+                            <br/>
+                            <div class="" style="text-align: center;"><a href="/collections/all" class="btn" style="width: 70%;margin-top: 10px;">Buy Now</a></div>
+                        </div>
+                    </div>
+                    <div class="AirSense_10 sided2">
+                        <div class="sided21">
+                            <img src="https://cdn.shopify.com/s/files/1/0082/8132/5665/files/ResMed-AirSense10.jpg" alt "ResMed-AirSense10">
+                        </div>
+                        <div class="sided22">
+                            <p style="text-align: center;padding: 20px;">The ResMed AirSense 10 is <span>compatible!</span></p>
+                            <br/>
+                            <div class="" style="text-align: center;"><a href="/collections/all" class="btn" style="width: 70%;margin-top: 10px;">Buy Now</a></div>
+                        </div>
+                    </div>
+                    <div class="AirCurve_10_BiPaP sided2">
+                        <div class="sided21">
+                            <img src="https://cdn.shopify.com/s/files/1/0082/8132/5665/files/ResMed-AirSense10.jpg" alt "ResMed-AirSense10-BiPaP">
+                        </div>
+                        <div class="sided22">
+                            <p style="text-align: center;padding: 20px;">The ResMed AirCurve 10 BiPaP is <span>compatible!</span></p>
+                            <br/>
+                            <div class="" style="text-align: center;"><a href="/collections/all" class="btn" style="width: 70%;margin-top: 10px;">Buy Now</a></div>
+                        </div>
+                    </div>
+                    <div class="Transcend_II sided2">
+                        <div class="sided21">
+                            <img src="https://cdn.shopify.com/s/files/1/0082/8132/5665/files/transcend.jpg" alt "TranscendII">
+                        </div>
+                        <div class="sided22">
+                            <p style="text-align: center;padding: 20px;">The Transcend Transcend II is <span>compatible!</span></p>
+                            <br/>
+                            <div class="" style="text-align: center;"><a href="/collections/all" class="btn" style="width: 70%;margin-top: 10px;">Buy Now</a></div>
+                        </div>
+                    </div>
+                    <div class="Z1 sided2">
+                        <div class="sided21">
+                            <img src="https://cdn.shopify.com/s/files/1/0082/8132/5665/files/HDM_Z1.jpg" alt "HDM_Z1">
+                        </div>
+                        <div class="sided22">
+                            <p style="text-align: center;padding: 20px;">The HDM Z1 is <span>compatible!</span></p>
+                            <br/>
+                            <div class="" style="text-align: center;"><a href="/collections/all" class="btn" style="width: 70%;margin-top: 10px;">Buy Now</a></div>
+                        </div>
+                    </div>
+                    <div class="Z1_Auto sided2">
+                        <div class="sided21">
+                            <img src="https://cdn.shopify.com/s/files/1/0082/8132/5665/files/HDM_Z1_Auto.jpg" alt "HDM_Z1_Auto">
+                        </div>
+                        <div class="sided22">
+                            <p style="text-align: center;padding: 20px;">The HDM Z1 Auto is <span>compatible!</span></p>
+                            <br/>
+                            <div class="" style="text-align: center;"><a href="/collections/all" class="btn" style="width: 70%;margin-top: 10px;">Buy Now</a></div>
+                        </div>
+                    </div>
+                </div>
+                <script>
+                    $(document).ready(function() {
+
+                        var list1 = document.getElementById('brand');
+
+                        list1.options[0] = new Option('--Select brand--', '');
+                        list1.options[1] = new Option('Aeiomed', 'Aeiomed');
+                        list1.options[2] = new Option('Apex Medical', 'Apex_Medical');
+                        list1.options[3] = new Option('Carefusion', 'Carefusion');
+                        list1.options[4] = new Option('Devilbiss', 'Devilbiss');
+                        list1.options[5] = new Option('Evo', 'Evo');
+                        list1.options[6] = new Option('Fisher & Paykel', 'Fisher_Paykel');
+                        list1.options[7] = new Option('Philips Respironics', 'Philips_Respironics');
+                        list1.options[8] = new Option('PMI Probasic', 'PMI_Probasic');
+                        list1.options[9] = new Option('Puritan Bennett', 'Puritan_Bennett');
+                        list1.options[10] = new Option('3B Medical', '3B_Medical');
+                        list1.options[11] = new Option('ResMed', 'ResMed');
+                        list1.options[12] = new Option('Transcend', 'Transcend');
+                        list1.options[13] = new Option('HDM', 'HDM');
+                    });
+
+
+                    function getBrands() {
+
+                        var list1 = document.getElementById('brand');
+                        var list2 = document.getElementById("model");
+                        var list1SelectedValue = list1.options[list1.selectedIndex].value;
+
+                        if (list1SelectedValue == 'Aeiomed') {
+
+                            list2.options.length = 0;
+                            list2.options[0] = new Option('--Select Model--', '');
+                            list2.options[1] = new Option('Everest', 'Everest');
+
+                        } else if (list1SelectedValue == 'Apex_Medical') {
+
+                            list2.options.length = 0;
+                            list2.options[0] = new Option('--Select Model--', '');
+                            list2.options[1] = new Option('ICH', 'ICH');
+                            list2.options[2] = new Option('XT', 'XT');
+
+                        } else if (list1SelectedValue == 'Carefusion') {
+
+                            list2.options.length = 0;
+                            list2.options[0] = new Option('--Select Model--', '');
+                            list2.options[1] = new Option('PureSom', 'PureSom');
+
+                        } else if (list1SelectedValue == 'Devilbiss') {
+
+                            list2.options.length = 0;
+                            list2.options[0] = new Option('--Select Model--', '');
+                            list2.options[1] = new Option('IntelliPAP', 'IntelliPAP');
+
+                        } else if (list1SelectedValue == 'Evo') {
+
+                            list2.options.length = 0;
+                            list2.options[0] = new Option('--Select Model--', '');
+                            list2.options[1] = new Option('ComfortPAP', 'ComfortPAP');
+
+                        } else if (list1SelectedValue == 'Fisher_Paykel') {
+
+                            list2.options.length = 0;
+                            list2.options[0] = new Option('--Select Model--', '');
+                            list2.options[1] = new Option('Icon', 'Icon_');
+                            list2.options[2] = new Option('SleepStyle 200 Series', 'SleepStyle_200_Series');
+                            list2.options[3] = new Option('SleepStyle 600 Series', 'SleepStyle_600_Series');
+
+                        } else if (list1SelectedValue == 'Philips_Respironics') {
+
+                            list2.options.length = 0;
+                            list2.options[0] = new Option('--Select Model--', '');
+                            list2.options[1] = new Option('DreamStation', 'DreamStation');
+                            list2.options[2] = new Option('DreamStation Go', 'DreamStation_Go');
+                            list2.options[3] = new Option('PR System One REMstar 60 Series', 'PR_System_One_REMstar_60_Series');
+                            list2.options[4] = new Option('PR System One REMstar', 'PR_System_One_REMstar');
+                            list2.options[5] = new Option('SleepEasy', 'SleepEasy');
+                            list2.options[6] = new Option('SleepEasy II', 'SleepEasy_II');
+                            list2.options[7] = new Option('M-Series V 2', 'M_Series_V_2');
+                            list2.options[8] = new Option('M-Series V 3', 'M_Series_V_3');
+
+                        } else if (list1SelectedValue == 'PMI_Probasic') {
+
+                            list2.options.length = 0;
+                            list2.options[0] = new Option('--Select Model--', '');
+                            list2.options[1] = new Option('Zzz-PAP', 'Zzz_PAP');
+
+                        } else if (list1SelectedValue == 'Puritan_Bennett') {
+
+                            list2.options.length = 0;
+                            list2.options[0] = new Option('--Select Model--', '');
+                            list2.options[1] = new Option('GoodKnight 420', 'GoodKnight_420');
+                            list2.options[2] = new Option('Sandman', 'Sandman');
+
+                        } else if (list1SelectedValue == '3B_Medical') {
+
+                            list2.options.length = 0;
+                            list2.options[0] = new Option('--Select Model--', '');
+                            list2.options[1] = new Option('600', 'BM600');
+                            list2.options[2] = new Option('700', 'BM700');
+                            list2.options[3] = new Option('Luna', 'Luna');
+
+                        } else if (list1SelectedValue == 'ResMed') {
+
+                            list2.options.length = 0;
+                            list2.options[0] = new Option('--Select Model--', '');
+                            list2.options[1] = new Option('S8', 'S8');
+                            list2.options[2] = new Option('S9', 'S9');
+                            list2.options[3] = new Option('AirMini', 'AirMini');
+                            list2.options[4] = new Option('AirSense 10', 'AirSense_10');
+                            list2.options[5] = new Option('AirCurve 10 BiPaP', 'AirCurve_10_BiPaP');
+
+                        } else if (list1SelectedValue == 'Transcend') {
+
+                            list2.options.length = 0;
+                            list2.options[0] = new Option('--Select Model--', '');
+                            list2.options[1] = new Option('Transcend II', 'Transcend_II');
+
+                        } else if (list1SelectedValue == 'HDM') {
+
+                            list2.options.length = 0;
+                            list2.options[0] = new Option('--Select Model--', '');
+                            list2.options[1] = new Option('Z1', 'Z1');
+                            list2.options[2] = new Option('Z1 Auto', 'Z1_Auto');
+
+                        }
+                    }
+                    $(document).ready(function() {
+                        $("select").change(function() {
+                            $(this).find("option:selected").each(function() {
+                                var optionValue = $(this).attr("value");
+                                if (optionValue) {
+                                    $(".sided2").not("." + optionValue).hide();
+                                    $("." + optionValue).show();
+                                } else {
+                                    $(".sided2").hide();
+                                }
+                            });
+                        }).change();
+                    });
+                </script>
+                <!--</form>-->
+            </div>
+        </div>
+        <div class="row row-sm" style="paddding-top:60px;">
+          <h2 style="text-align:center;padding-top: 40px;">Is Your WAVE CPAP Cleaner Compalible?</h2>
+            <table class="table table-hover">
+                <tbody>
+                    <tr data-brand="aeiomed">
+                        <td class="info"><strong>Aeiomed</strong></td>
+                        <td style="padding-left: 20px;">
+                            <img class="alignnone size-full wp-image-2091" src="https://cdn.shopify.com/s/files/1/0082/8132/5665/files/Aeiomed-Everest3.jpg" alt="Aeiomed-Everest3" width="110" height="110">
+                        </td>
+                        <td>Everest</td>
+                        <td>
+                            <h3 class="compatible">compatible!</h3>
+                            <a href="/collections/all" class="btnn" style="width: 70%;margin-top: 10px;">Buy Now</a>
+                        </td>
+                    </tr>
+                    <tr class="seperator">
+                        <td colspan="4"></td>
+                    </tr>
+                    <tr>
+                        <td class="info" rowspan="2"><strong>Apex Medical</strong></td>
+                        <td style="padding-left: 20px;">
+                            <img class="alignnone size-full wp-image-2092" src="https://cdn.shopify.com/s/files/1/0082/8132/5665/files/Apex-Medical-ICH.jpg" alt="Apex-Medical-ICH" width="110" height="110">
+                        </td>
+                        <td>ICH</td>
+                        <td>
+                            <h3 class="compatible">compatible!</h3>
+                            <a href="/collections/all" class="btnn" style="width: 70%;margin-top: 10px;">Buy Now</a>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="padding-left: 20px;">
+                            <img class="alignnone size-full wp-image-2093" src="https://cdn.shopify.com/s/files/1/0082/8132/5665/files/Apex-Medical-XT.jpg" alt="Apex-Medical-XT" width="110" height="110">
+                        </td>
+                        <td>XT</td>
+                        <td>
+                            <h3 class="compatible">compatible!</h3>
+                            <a href="/collections/all" class="btnn" style="width: 70%;margin-top: 10px;">Buy Now</a>
+                        </td>
+                    </tr>
+                    <tr class="seperator">
+                        <td colspan="4"></td>
+                    </tr>
+                    <tr data-brand="carefusion">
+                        <td class="info"><strong>Carefusion</strong></td>
+                        <td style="padding-left: 20px;">
+                            <img class="alignnone size-full wp-image-2094" src="https://cdn.shopify.com/s/files/1/0082/8132/5665/files/Carefusion-pursom.jpg" alt="Carefusion-pursom" width="110" height="110">
+                        </td>
+                        <td>PureSom</td>
+                        <td>
+                            <h3 class="compatible">compatible!</h3>
+                            <a href="/collections/all" class="btnn" style="width: 70%;margin-top: 10px;">Buy Now</a>
+                        </td>
+                    </tr>
+                    <tr class="seperator">
+                        <td colspan="4"></td>
+                    </tr>
+                    <tr data-brand="devilbiss">
+                        <td class="info"><strong>Devilbiss</strong></td>
+                        <td style="padding-left: 20px;">
+                            <img class="alignnone size-full wp-image-2095" src="https://cdn.shopify.com/s/files/1/0082/8132/5665/files/Devilbiss-IntelliPAP.jpg" alt="Devilbiss-IntelliPAP" width="110" height="110">
+                        </td>
+                        <td>IntelliPAP</td>
+                        <td>
+                            <h3 class="compatible">compatible!</h3>
+                            <a href="/collections/all" class="btnn" style="width: 70%;margin-top: 10px;">Buy Now</a>
+                        </td>
+                    </tr>
+                    <tr class="seperator">
+                        <td colspan="4"></td>
+                    </tr>
+                    <tr data-brand="evo">
+                        <td class="info"><strong>Evo</strong></td>
+                        <td style="padding-left: 20px;">
+                            <img class="alignnone size-full wp-image-2096" src="https://cdn.shopify.com/s/files/1/0082/8132/5665/files/EVO-ComfortPAP.jpg" alt="EVO-ComfortPAP" width="110" height="110">
+                        </td>
+                        <td>ComfortPAP</td>
+                        <td>
+                            <h3 class="compatible">compatible!</h3>
+                            <a href="/collections/all" class="btnn" style="width: 70%;margin-top: 10px;">Buy Now</a>
+                        </td>
+                    </tr>
+                    <tr class="seperator">
+                        <td colspan="4"></td>
+                    </tr>
+                    <tr data-brand="fisher_paykel">
+                        <td class="info" rowspan="3"><strong>Fisher &amp; Paykel</strong></td>
+                        <td style="padding-left: 20px;">
+                            <img class="alignnone size-full wp-image-2097" src="https://cdn.shopify.com/s/files/1/0082/8132/5665/files/Fisher-Paykel-icon.jpg" alt="Fisher-Paykel-icon" width="110" height="110">
+                        </td>
+                        <td>Icon</td>
+                        <td>
+                            <h3 class="need-adapter">compatible with free adapter!</h3>
+                            <a href="/collections/all" class="btnn" style="width: 70%;margin-top: 10px;">Buy Now</a>
+                        </td>
+                    </tr>
+                    <tr data-brand="fisher_paykel">
+                        <td style="padding-left: 20px;">
+                            <img class="alignnone size-full wp-image-2098" src="https://cdn.shopify.com/s/files/1/0082/8132/5665/files/Fisher-Paykel-SleepStyle-200.jpg" alt="Fisher-Paykel-SleepStyle-200" width="110" height="110">
+                        </td>
+                        <td>SleepStyle 200 Series</td>
+                        <td>
+                            <h3 class="compatible">compatible!</h3>
+                            <a href="/collections/all" class="btnn" style="width: 70%;margin-top: 10px;">Buy Now</a>
+                        </td>
+                    </tr>
+                    <tr data-brand="fisher_paykel">
+                        <td style="padding-left: 20px;">
+                            <img class="alignnone size-full wp-image-2099" src="https://cdn.shopify.com/s/files/1/0082/8132/5665/files/Fisher-Paykel-SleepStyle-600.jpg" alt="Fisher-Paykel-SleepStyle-600" width="110" height="110">
+                        </td>
+                        <td>SleepStyle 600 Series</td>
+                        <td>
+                            <h3 class="need-adapter">compatible with free adapter!</h3>
+                            <a href="/collections/all" class="btnn" style="width: 70%;margin-top: 10px;">Buy Now</a>
+                        </td>
+                    </tr>
+                    <tr class="seperator">
+                        <td colspan="4"></td>
+                    </tr>
+                    <tr data-brand="philips_respironics">
+                        <td rowspan="8" class="info"><strong>Philips Respironics</strong></td>
+                        <td style="padding-left: 20px;">
+                            <img class="alignnone size-full wp-image-2101" src="https://cdn.shopify.com/s/files/1/0082/8132/5665/files/dreamstation-cpap.jpg" alt="Philips-Respironics-DreamStation" width="110" height="110">
+                        </td>
+                        <td>DreamStation</td>
+                        <td>
+                            <h3 class="need-adapter">compatible with free adapter!</h3>
+                            <a href="/collections/all" class="btnn" style="width: 70%;margin-top: 10px;">Buy Now</a>
+                        </td>
+                    </tr>
+                    <tr data-brand="philips_respironics">
+                        <td style="padding-left: 20px;">
+                            <img class="alignnone size-full wp-image-2101" src="https://cdn.shopify.com/s/files/1/0082/8132/5665/files/DreamStation_GoAuto_110x110_282b6842-a88f-44af-9744-e21aadc44c84.jpg" alt="Philips-Respironics-DreamStation-Go" width="110" height="110">
+                        </td>
+                        <td>DreamStation Go</td>
+                        <td>
+                            <h3 class="need-adapter">compatible with free adapter!</h3>
+                            <a href="/collections/all" class="btnn" style="width: 70%;margin-top: 10px;">Buy Now</a>
+                        </td>
+                    </tr>
+                    <tr data-brand="philips_respironics">
+                        <td style="padding-left: 20px;">
+                            <img class="alignnone size-full wp-image-2101" src="https://cdn.shopify.com/s/files/1/0082/8132/5665/files/Philips-Respironics-PR-System-One-REMstar-60.jpg" alt="Philips-Respironics-PR-System-One-REMstar-60" width="110" height="110">
+                        </td>
+                        <td>PR System One REMstar 60 Series</td>
+                        <td>
+                            <h3 class="need-adapter">compatible with free adapter!</h3>
+                            <a href="/collections/all" class="btnn" style="width: 70%;margin-top: 10px;">Buy Now</a>
+                        </td>
+                    </tr>
+                    <tr data-brand="philips_respironics">
+                        <td style="padding-left: 20px;">
+                            <img class="alignnone size-full wp-image-2102" src="https://cdn.shopify.com/s/files/1/0082/8132/5665/files/Philips-Respironics-REMstar.jpg" alt="Philips-Respironics-REMstar" width="110" height="110">
+                        </td>
+                        <td>PR System One REMstar</td>
+                        <td>
+                            <h3 class="need-adapter">compatible with free adapter!</h3>
+                            <a href="/collections/all" class="btnn" style="width: 70%;margin-top: 10px;">Buy Now</a>
+                        </td>
+                    </tr>
+                    <tr data-brand="philips_respironics">
+                        <td style="padding-left: 20px;">
+                            <img class="alignnone size-full wp-image-2103" src="https://cdn.shopify.com/s/files/1/0082/8132/5665/files/Philips-Respironics-SleepEasy.jpg" alt="Philips-Respironics-SleepEasy" width="110" height="110">
+                        </td>
+                        <td>SleepEasy</td>
+                        <td>
+                            <h3 class="compatible">compatible!</h3>
+                            <a href="/collections/all" class="btnn" style="width: 70%;margin-top: 10px;">Buy Now</a>
+                        </td>
+                    </tr>
+                    <tr data-brand="philips_respironics">
+                        <td style="padding-left: 20px;">
+                            <img class="alignnone size-full wp-image-2103" src="https://cdn.shopify.com/s/files/1/0082/8132/5665/files/Philips-Respironics-SleepEasy.jpg" alt="Philips-Respironics-SleepEasy" width="110" height="110">
+                        </td>
+                        <td>SleepEasy II</td>
+                        <td>
+                            <h3 class="compatible">compatible!</h3>
+                            <a href="/collections/all" class="btnn" style="width: 70%;margin-top: 10px;">Buy Now</a>
+                        </td>
+                    </tr>
+                    <tr data-brand="philips_respironics">
+                        <td style="padding-left: 20px;">
+                            <img class="alignnone size-full wp-image-2100" src="https://cdn.shopify.com/s/files/1/0082/8132/5665/files/Philips-Respironics-M-Series-V-2.jpg" alt="Philips-Respironics-M-Series-V-2" width="110" height="110">
+                        </td>
+                        <td>M-Series V 2</td>
+                        <td>
+                            <h3 class="compatible">compatible!</h3>
+                            <a href="/collections/all" class="btnn" style="width: 70%;margin-top: 10px;">Buy Now</a>
+                        </td>
+                    </tr>
+                    <tr data-brand="philips_respironics">
+                        <td style="padding-left: 20px;">
+                            <img class="alignnone size-full wp-image-2102" src="https://cdn.shopify.com/s/files/1/0082/8132/5665/files/Philips-Respironics-REMstar.jpg" alt="Philips-Respironics-REMstar" width="110" height="110">
+                        </td>
+                        <td>M-Series V 3</td>
+                        <td>
+                            <h3 class="compatible">compatible!</h3>
+                            <a href="/collections/all" class="btnn" style="width: 70%;margin-top: 10px;">Buy Now</a>
+                        </td>
+                    </tr>
+                    <tr class="seperator">
+                        <td colspan="4"></td>
+                    </tr>
+                    <tr data-brand="pmi_probasic">
+                        <td class="info"><strong>PMI Probasic</strong></td>
+                        <td style="padding-left: 20px;">
+                            <img class="alignnone size-full wp-image-2104" src="https://cdn.shopify.com/s/files/1/0082/8132/5665/files/PMI-Probasic-zzzpapcpap.jpg" alt="PMI-Probasic-zzzpapcpap" width="110" height="110">
+                        </td>
+                        <td>Zzz-PAP</td>
+                        <td>
+                            <h3 class="compatible">compatible!</h3>
+                            <a href="/collections/all" class="btnn" style="width: 70%;margin-top: 10px;">Buy Now</a>
+                        </td>
+                    </tr>
+                    <tr class="seperator">
+                        <td colspan="4"></td>
+                    </tr>
+                    <tr data-brand="puritan_bennett">
+                        <td rowspan="2" class="info"><strong>Puritan Bennett</strong></td>
+                        <td style="padding-left: 20px;">
+                            <img class="alignnone size-full wp-image-2105" src="https://cdn.shopify.com/s/files/1/0082/8132/5665/files/Puritan-Bennett-GoodKnight.jpg" alt="Puritan-Bennett-GoodKnight" width="110" height="110">
+                        </td>
+                        <td>GoodKnight 420</td>
+                        <td>
+                            <h3 class="compatible">compatible!</h3>
+                            <a href="/collections/all" class="btnn" style="width: 70%;margin-top: 10px;">Buy Now</a>
+                        </td>
+                    </tr>
+                    <tr data-brand="puritan_bennett">
+                        <td style="padding-left: 20px;">
+                            <img class="alignnone size-full wp-image-2106" src="https://cdn.shopify.com/s/files/1/0082/8132/5665/files/Puritan-Bennett-Sandman.jpg" alt="Puritan-Bennett-Sandman" width="110" height="110">
+                        </td>
+                        <td>Sandman</td>
+                        <td>
+                            <h3 class="compatible">compatible!</h3>
+                            <a href="/collections/all" class="btnn" style="width: 70%;margin-top: 10px;">Buy Now</a>
+                        </td>
+                    </tr>
+                    <tr class="seperator">
+                        <td colspan="4"></td>
+                    </tr>
+                    <tr data-brand="3B_Medical">
+                        <td rowspan="3" class="info"><strong>3B Medical</strong></td>
+                        <td style="padding-left: 20px;">
+                            <img class="alignnone size-full wp-image-2107" src="https://cdn.shopify.com/s/files/1/0082/8132/5665/files/RESmart-BPAP-Device.jpg" alt="RESmart-BPAP-Device" width="110" height="110">
+                        </td>
+                        <td>600</td>
+                        <td>
+                            <h3 class="compatible">compatible!</h3>
+                            <a href="/collections/all" class="btnn" style="width: 70%;margin-top: 10px;">Buy Now</a>
+                        </td>
+                    </tr>
+                    <tr data-brand="3B_Medical">
+                        <td style="padding-left: 20px;">
+                            <img class="alignnone size-full" src="https://cdn.shopify.com/s/files/1/0082/8132/5665/files/3B-Medical_700.jpg" alt="3B-Medical-700" width="110" height="110">
+                        </td>
+                        <td>700</td>
+                        <td>
+                            <h3 class="compatible">compatible!</h3>
+                            <a href="/collections/all" class="btnn" style="width: 70%;margin-top: 10px;">Buy Now</a>
+                        </td>
+                    </tr>
+                    <tr data-brand="3B_Medical">
+                        <td style="padding-left: 20px;">
+                            <img class="alignnone size-full" src="https://cdn.shopify.com/s/files/1/0082/8132/5665/files/3B-Medical_Luna.png" alt="3B-Medical-luna" width="110" height="110">
+                        </td>
+                        <td>Luna</td>
+                        <td>
+                            <h3 class="compatible">compatible!</h3>
+                            <a href="/collections/all" class="btnn" style="width: 70%;margin-top: 10px;">Buy Now</a>
+                        </td>
+                    </tr>
+                    <tr class="seperator">
+                        <td colspan="4"></td>
+                    </tr>
+                    <tr data-brand="resmed">
+                        <td rowspan="4" class="info"><strong>ResMed</strong></td>
+                        <td style="padding-left: 20px;">
+                            <img class="alignnone size-full wp-image-2108" src="https://cdn.shopify.com/s/files/1/0082/8132/5665/files/ResMed-S8.jpg" alt="ResMed-S8" width="110" height="110">
+                        </td>
+                        <td>S8</td>
+                        <td>
+                            <h3 class="compatible">compatible!</h3>
+                            <a href="/collections/all" class="btnn" style="width: 70%;margin-top: 10px;">Buy Now</a>
+                        </td>
+                    </tr>
+                    <tr data-brand="resmed">
+                        <td style="padding-left: 20px;">
+                            <img class="alignnone size-full wp-image-2109" src="https://cdn.shopify.com/s/files/1/0082/8132/5665/files/ResMed-S9.jpg" alt="ResMed-S9" width="110" height="110">
+                        </td>
+                        <td>S9</td>
+                        <td>
+                            <h3 class="need-adapter">compatible with free adapter!</h3>
+                            <a href="/collections/all" class="btnn" style="width: 70%;margin-top: 10px;">Buy Now</a>
+                        </td>
+                    </tr>
+                    <tr data-brand="resmed">
+                        <td style="padding-left: 20px;">
+                            <img class="alignnone size-full wp-image-2101" src="https://cdn.shopify.com/s/files/1/0082/8132/5665/files/ResMed_AirminiMain_110x110_da6d4656-5e4f-4889-a781-c11f07ad839c.jpg" alt="ResMed-AirMini" width="110" height="110">
+                        </td>
+                        <td>AirMini</td>
+                        <td>
+                            <h3 class="need-adapter">compatible with free adapter!</h3>
+                            <a href="/collections/all" class="btnn" style="width: 70%;margin-top: 10px;">Buy Now</a>
+                        </td>
+                    </tr>
+                    <tr data-brand="resmed">
+                        <td style="padding-left: 20px;">
+                            <img class="alignnone size-full wp-image-2109" src="https://cdn.shopify.com/s/files/1/0082/8132/5665/files/ResMed-AirSense10.jpg" alt="ResMed-S9" width="110" height="110">
+                        </td>
+                        <td>AirSense 10<br>AirCurve 10 BiPaP</td>
+                        <td>
+                            <h3 class="need-adapter">compatible with free adapter!</h3>
+                            <a href="/collections/all" class="btnn" style="width: 70%;margin-top: 10px;">Buy Now</a>
+                        </td>
+                    </tr>
+                    <tr class="seperator">
+                        <td colspan="4"></td>
+                    </tr>
+                    <tr data-brand="transcend">
+                        <td class="info"><strong>Transcend</strong></td>
+                        <td style="padding-left: 20px;">
+                            <img class="alignnone size-full wp-image-2110" src="https://cdn.shopify.com/s/files/1/0082/8132/5665/files/transcend.jpg" alt="transcend" width="110" height="110">
+                        </td>
+                        <td>Transcend II</td>
+                        <td>
+                            <h3 class="need-adapter">compatible with free adapter!</h3>
+                            <a href="/collections/all" class="btnn" style="width: 70%;margin-top: 10px;">Buy Now</a>
+                        </td>
+                    </tr>
+                    <tr class="seperator">
+                        <td colspan="4"></td>
+                    </tr>
+                    <tr data-brand="hdm">
+                        <td rowspan="2" class="info"><strong>HDM</strong></td>
+                        <td style="padding-left: 20px;">
+                            <img class="alignnone size-full wp-image-2111" src="https://cdn.shopify.com/s/files/1/0082/8132/5665/files/HDM_Z1.jpg" alt="HDM Z1" width="110" height="110">
+                        </td>
+                        <td>Z1</td>
+                        <td>
+                            <h3 class="need-adapter">compatible with free adapter!</h3>
+                            <a href="/collections/all" class="btnn" style="width: 70%;margin-top: 10px;">Buy Now</a>
+                        </td>
+                    </tr>
+                    <tr data-brand="hdm">
+                        <td style="padding-left: 20px;">
+                            <img class="alignnone size-full wp-image-2112" src="https://cdn.shopify.com/s/files/1/0082/8132/5665/files/HDM_Z1_Auto.jpg" alt="HDM Z1 Auto" width="110" height="110">
+                        </td>
+                        <td>Z1 Auto</td>
+                        <td>
+                            <h3 class="need-adapter">compatible with free adapter!</h3>
+                            <a href="/collections/all" class="btnn" style="width: 70%;margin-top: 10px;">Buy Now</a>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+{% schema %}
+{
+  "name": "Chart page",
+  "settings": [
+    {
+      "type": "checkbox",
+      "id": "show_page_title",
+      "label": "Show page title",
+      "default": false
+    }
+  ]
+}
+{% endschema %}
